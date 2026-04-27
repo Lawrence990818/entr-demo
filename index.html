@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Enterprise Core | Collapsible Sidebar</title>
+    <!-- Google Fonts & simple reset -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap"
+        rel="stylesheet">
+    <!-- Font Awesome 6 (free icons) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #f0f2f6;
+            height: 100vh;
+            overflow: hidden;
+            color: #1e293b;
+        }
+
+        /* --- APP WRAPPER (flex master) --- */
+        .app-wrapper {
+            display: flex;
+            height: 100vh;
+            width: 100%;
+            transition: all 0.2s ease;
+        }
+
+        /* ========= SIDEBAR (collapsible, enterprise) ========= */
+        .sidebar {
+            background: linear-gradient(145deg, #0f172a 0%, #111827 100%);
+            color: #e2e8f0;
+            display: flex;
+            flex-direction: column;
+            transition: width 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+            width: 65px;
+            /* expanded width */
+            flex-shrink: 0;
+            overflow-x: hidden;
+            box-shadow: 4px 0 20px rgba(0, 0, 0, 0.08);
+            z-index: 10;
+            backdrop-filter: blur(0px);
+        }
+
+        /* collapsed state */
+        .sidebar.collapsed {
+            width: 65px;
+        }
+
+        /* sidebar inner container for flex layout */
+        .sidebar-inner {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            padding: 28px 0 28px 0;
+        }
+
+        /* logo / brand area */
+        .brand-area {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            padding: 0 20px;
+            margin-bottom: 40px;
+            gap: 12px;
+            white-space: nowrap;
+            transition: all 0.2s;
+        }
+
+        .brand-icon {
+            font-size: 28px;
+            color: #3b82f6;
+            background: rgba(59, 130, 246, 0.15);
+            width: 40px;
+            height: 40px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .brand-text {
+            font-weight: 700;
+            font-size: 1.4rem;
+            letter-spacing: -0.3px;
+            background: linear-gradient(135deg, #ffffff, #94a3b8);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .sidebar.collapsed .brand-text {
+            display: none;
+        }
+
+        /* navigation menu */
+        .nav-menu {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            padding: 0 12px;
+        }
+
+        /* each nav item: side icons + name underneath (vertical flex) */
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            /* padding: 14px 14px; */
+            /* border-radius: 5px; */
+            cursor: pointer;
+            transition: all 0.2s ease;
+            /* color: #cbd5e1; */
+            /* background: transparent; */
+            text-align: center;
+            font-weight: 500;
+            position: relative;
+        }
+
+        /* icon size */
+        .nav-item i {
+            font-size: 26px;
+            width: 32px;
+            transition: transform 0.2s;
+        }
+
+        /* label underneath */
+        .nav-label {
+            font-size: 0.6rem;
+            font-weight: 500;
+            letter-spacing: 0.3px;
+            text-transform: capitalize;
+            transition: opacity 0.2s, font-size 0.1s;
+            white-space: nowrap;
+        }
+
+        /* when sidebar expanded, adjust spacing/alignment */
+        .sidebar:not(.collapsed) .nav-item {
+            flex-direction: column;
+            align-items: center;
+            padding: 12px 8px;
+        }
+
+        /* when collapsed: keep icon + label underneath but smaller spacing */
+        .sidebar.collapsed .nav-item {
+            padding: 12px 4px;
+            gap: 6px;
+        }
+
+        .sidebar.collapsed .nav-label {
+            font-size: 0.65rem;
+            letter-spacing: 0.2px;
+            opacity: 0.9;
+        }
+
+        /* active / hover states */
+        .nav-item.active {
+            background: rgba(59, 130, 246, 0.2);
+            color: white;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+            border: 0.5px solid rgba(59, 130, 246, 0.4);
+        }
+
+        .nav-item:hover:not(.active) {
+            background: rgba(255, 255, 255, 0.08);
+            color: #f1f5f9;
+            transform: translateX(2px);
+        }
+
+        /* collapse toggle button (enterprise style) */
+        .toggle-btn-wrapper {
+            padding: 20px 16px 12px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            margin-top: auto;
+        }
+
+        .toggle-sidebar {
+            background: rgba(45, 55, 72, 0.6);
+            border: none;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            padding: 10px;
+            border-radius: 40px;
+            cursor: pointer;
+            color: #e2e8f0;
+            font-size: 1rem;
+            font-weight: 500;
+            transition: all 0.2s;
+            backdrop-filter: blur(4px);
+        }
+
+        .toggle-sidebar i {
+            font-size: 1.2rem;
+        }
+
+        .toggle-text {
+            white-space: nowrap;
+            font-size: 0.85rem;
+        }
+
+        .sidebar.collapsed .toggle-text {
+            display: none;
+        }
+
+        .sidebar.collapsed .toggle-sidebar {
+            justify-content: center;
+            padding: 10px;
+        }
+
+        /* ----- MAIN CONTENT (responsive & enterprise) ----- */
+        .main-content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 28px 32px;
+            background: #f8fafc;
+            transition: all 0.2s;
+        }
+
+        /* enterprise header */
+        .content-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            margin-bottom: 32px;
+            gap: 20px;
+        }
+
+        .page-title h1 {
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: #0f172a;
+            letter-spacing: -0.02em;
+        }
+
+        .page-title p {
+            color: #475569;
+            font-size: 0.9rem;
+            margin-top: 6px;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 16px;
+        }
+
+        .badge-pro {
+            background: white;
+            border-radius: 40px;
+            padding: 8px 18px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+            font-weight: 500;
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #0f172a;
+            border: 1px solid #e2e8f0;
+        }
+
+        .avatar {
+            background: #1e293b;
+            width: 44px;
+            height: 44px;
+            border-radius: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+        }
+
+        /* dashboard cards grid */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 24px;
+            margin-bottom: 40px;
+        }
+
+        .stat-card {
+            background: white;
+            border-radius: 28px;
+            padding: 20px 20px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+            border: 1px solid #eef2ff;
+            transition: all 0.2s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 20px -12px rgba(0, 0, 0, 0.1);
+            border-color: #cbd5e1;
+        }
+
+        .stat-header {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin-bottom: 16px;
+        }
+
+        .stat-icon {
+            background: #eef2ff;
+            width: 48px;
+            height: 48px;
+            border-radius: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: #2563eb;
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #0f172a;
+        }
+
+        .stat-label {
+            color: #475569;
+            font-weight: 500;
+            font-size: 0.85rem;
+        }
+
+        /* table / recent activity */
+        .recent-section {
+            background: white;
+            border-radius: 28px;
+            padding: 24px;
+            border: 1px solid #eef2ff;
+            margin-bottom: 20px;
+        }
+
+        .section-title {
+            font-weight: 600;
+            font-size: 1.25rem;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .activity-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 16px 0;
+            border-bottom: 1px solid #f1f5f9;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .activity-info {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .activity-badge {
+            width: 36px;
+            height: 36px;
+            background: #f1f5f9;
+            /* border-radius: 4px; */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* responsive adjustments */
+        @media (max-width: 768px) {
+            .main-content {
+                padding: 20px 16px;
+            }
+
+            .sidebar {
+                position: fixed;
+                height: 100%;
+                top: 0;
+                left: 0;
+                z-index: 1000;
+                box-shadow: 8px 0 28px rgba(0, 0, 0, 0.2);
+            }
+
+            .sidebar.collapsed {
+                width: 80px;
+            }
+
+            .app-wrapper {
+                position: relative;
+            }
+
+            .main-content {
+                margin-left: 0;
+                width: 100%;
+            }
+
+            /* optional overlay for mobile collapsed? but default fine */
+            .toggle-text {
+                display: none;
+            }
+
+            .sidebar.collapsed .toggle-text {
+                display: none;
+            }
+        }
+
+        /* subtle scroll */
+        .main-content::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .main-content::-webkit-scrollbar-track {
+            background: #e2e8f0;
+            border-radius: 8px;
+        }
+
+        .main-content::-webkit-scrollbar-thumb {
+            background: #94a3b8;
+            border-radius: 8px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="app-wrapper">
+        <!-- SIDEBAR: collapsable, only icons + name underneath (vertical) -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-inner">
+                <!-- brand section -->
+                <div class="brand-area">
+                    <div class="brand-icon">
+                        <i class="fas fa-cube"></i>
+                    </div>
+                    <!-- <span class="brand-text">Nexify</span> -->
+                </div>
+
+                <!-- navigation: each item has icon + name underneath -->
+                <div class="nav-menu">
+                    <div class="nav-item active" data-view="dashboard">
+                        <i class="fas fa-tachometer-alt"></i>
+                        <span class="nav-label">Dashboard</span>
+                    </div>
+                    <div class="nav-item" data-view="analytics">
+                        <i class="fas fa-chart-line"></i>
+                        <span class="nav-label">Analytics</span>
+                    </div>
+                    <div class="nav-item" data-view="projects">
+                        <i class="fas fa-layer-group"></i>
+                        <span class="nav-label">Projects</span>
+                    </div>
+                    <div class="nav-item" data-view="team">
+                        <i class="fas fa-users"></i>
+                        <span class="nav-label">Team</span>
+                    </div>
+                    <div class="nav-item" data-view="settings">
+                        <i class="fas fa-sliders-h"></i>
+                        <span class="nav-label">Settings</span>
+                    </div>
+                </div>
+
+                <!-- collapse toggle button -->
+                <div class="toggle-btn-wrapper">
+                    <button class="toggle-sidebar" id="collapseBtn">
+                        <i class="fas fa-chevron-left" id="collapseIcon"></i>
+                        <span class="toggle-text">Collapse</span>
+                    </button>
+                </div>
+            </div>
+        </aside>
+
+        <!-- MAIN CONTENT (enterprise dashboard, dynamic) -->
+        <main class="main-content" id="mainContent">
+            <!-- dynamic header placeholder but will be updated via JS for each view? 
+    we'll build dashboard view by default, but we also handle view switching using enterprise data -->
+            <div id="viewContainer">
+                <!-- Dashboard view injected initially -->
+            </div>
+        </main>
+    </div>
+
+    <script>
+        (function () {
+            // DOM elements
+            const sidebar = document.getElementById('sidebar');
+            const collapseBtn = document.getElementById('collapseBtn');
+            const collapseIcon = document.getElementById('collapseIcon');
+            const navItems = document.querySelectorAll('.nav-item');
+            const viewContainer = document.getElementById('viewContainer');
+
+            // ---------- Enterprise view content mapping (side icons + name navigation) ----------
+            // Each view returns HTML representing enterprise-level data
+
+            const renderDashboard = () => `
+      <div class="content-header">
+        <div class="page-title">
+          <h1>Executive Dashboard</h1>
+          <p>Real-time insights & key metrics for enterprise operations</p>
+        </div>
+        <div class="header-actions">
+          <div class="badge-pro"><i class="fas fa-chart-simple"></i> Q2 Enterprise</div>
+          <div class="avatar"><i class="fas fa-user-tie"></i></div>
+        </div>
+      </div>
+      <div class="dashboard-grid">
+        <div class="stat-card">
+          <div class="stat-header"><div class="stat-icon"><i class="fas fa-dollar-sign"></i></div><div><div class="stat-value">$12.4M</div><div class="stat-label">Total Revenue</div></div></div>
+          <div class="stat-label">↑ 23% vs last quarter</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-header"><div class="stat-icon"><i class="fas fa-user-plus"></i></div><div><div class="stat-value">1,284</div><div class="stat-label">Active Users</div></div></div>
+          <div class="stat-label">Enterprise seats +12%</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-header"><div class="stat-icon"><i class="fas fa-cloud-upload-alt"></i></div><div><div class="stat-value">99.96%</div><div class="stat-label">Uptime SLA</div></div></div>
+          <div class="stat-label">Premium infrastructure</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-header"><div class="stat-icon"><i class="fas fa-tasks"></i></div><div><div class="stat-value">48</div><div class="stat-label">Active Projects</div></div></div>
+          <div class="stat-label">On track: 34 completed</div>
+        </div>
+      </div>
+      <div class="recent-section">
+        <div class="section-title"><i class="fas fa-clock"></i> Recent Enterprise Activity</div>
+        <div class="activity-row"><div class="activity-info"><div class="activity-badge"><i class="fas fa-rocket"></i></div><span><strong>Deployment</strong> · Microservices v3.2</span></div><span>2 hours ago</span></div>
+        <div class="activity-row"><div class="activity-info"><div class="activity-badge"><i class="fas fa-file-invoice"></i></div><span><strong>Invoice</strong> · Enterprise Gold Plan</span></div><span>Yesterday</span></div>
+        <div class="activity-row"><div class="activity-info"><div class="activity-badge"><i class="fas fa-database"></i></div><span><strong>Data Sync</strong> · Analytics warehouse</span></div><span>Aug 14, 2025</span></div>
+        <div class="activity-row"><div class="activity-info"><div class="activity-badge"><i class="fas fa-shield-alt"></i></div><span><strong>Security Audit</strong> · SOC2 passed</span></div><span>3 days ago</span></div>
+      </div>
+    `;
+
+            const renderAnalytics = () => `
+      <div class="content-header"><div class="page-title"><h1>Analytics Hub</h1><p>Enterprise KPIs, predictive metrics & intelligence</p></div><div class="badge-pro"><i class="fas fa-chart-line"></i> Live insights</div></div>
+      <div class="dashboard-grid">
+        <div class="stat-card"><div class="stat-header"><div class="stat-icon"><i class="fas fa-chart-pie"></i></div><div><div class="stat-value">64%</div><div class="stat-label">Market share</div></div></div><div class="stat-label">+5% YoY</div></div>
+        <div class="stat-card"><div class="stat-header"><div class="stat-icon"><i class="fas fa-users-viewfinder"></i></div><div><div class="stat-value">58.2K</div><div class="stat-label">Daily Active Org</div></div></div><div class="stat-label">Enterprise sessions</div></div>
+        <div class="stat-card"><div class="stat-header"><div class="stat-icon"><i class="fas fa-chart-simple"></i></div><div><div class="stat-value">$2.8M</div><div class="stat-label">ARR Growth</div></div></div><div class="stat-label">Forecast Q3</div></div>
+      </div>
+      <div class="recent-section"><div class="section-title"><i class="fas fa-chart-column"></i> Top performing segments</div><div class="activity-row"><div class="activity-info"><div class="activity-badge"><i class="fas fa-building"></i></div><span>Financial Services · +32% engagement</span></div><span>trending</span></div><div class="activity-row"><div class="activity-info"><div class="activity-badge"><i class="fas fa-store"></i></div><span>Retail Enterprise · $1.2M pipeline</span></div><span>new high</span></div></div>
+    `;
+
+            const renderProjects = () => `
+      <div class="content-header"><div class="page-title"><h1>Project Portfolio</h1><p>Enterprise initiatives & strategic workflows</p></div><div class="badge-pro"><i class="fas fa-plus-circle"></i> New initiative</div></div>
+      <div class="dashboard-grid"><div class="stat-card"><div class="stat-header"><div class="stat-icon"><i class="fas fa-code-branch"></i></div><div><div class="stat-value">12</div><div class="stat-label">DevOps Streams</div></div></div></div>
+      <div class="stat-card"><div class="stat-header"><div class="stat-icon"><i class="fas fa-cloud"></i></div><div><div class="stat-value">6</div><div class="stat-label">Cloud Migrations</div></div></div></div>
+      <div class="stat-card"><div class="stat-header"><div class="stat-icon"><i class="fas fa-robot"></i></div><div><div class="stat-value">3</div><div class="stat-label">AI Pilots</div></div></div></div></div>
+      <div class="recent-section"><div class="section-title"><i class="fas fa-list-check"></i> Current Sprints</div><div class="activity-row"><span>🔹 Omni-channel Platform (85% complete)</span><span>Due Sep 12</span></div><div class="activity-row"><span>🔹 Zero-trust Security Overlay (Sprint 3)</span><span>On target</span></div><div class="activity-row"><span>🔹 Data Mesh Architecture (Discovery)</span><span>Q4 planning</span></div></div>
+    `;
+
+            const renderTeam = () => `
+      <div class="content-header"><div class="page-title"><h1>Enterprise Units</h1><p>Leadership & cross-functional squads</p></div><div class="avatar-group"><div class="badge-pro"><i class="fas fa-user-plus"></i> Invite member</div></div></div>
+      <div class="dashboard-grid"><div class="stat-card"><div class="stat-header"><i class="fas fa-user-tie fa-2x" style="color:#2563eb;"></i><div style="margin-left:12px"><div class="stat-value">8</div><div class="stat-label">Directors</div></div></div></div>
+      <div class="stat-card"><div class="stat-header"><i class="fas fa-laptop-code fa-2x"></i><div style="margin-left:12px"><div class="stat-value">24</div><div class="stat-label">Engineers</div></div></div></div>
+      <div class="stat-card"><div class="stat-header"><i class="fas fa-chalkboard-user fa-2x"></i><div style="margin-left:12px"><div class="stat-value">12</div><div class="stat-label">Product Leads</div></div></div></div></div>
+      <div class="recent-section"><div class="section-title"><i class="fas-regular fa-address-card"></i> Core Leadership</div><div class="activity-row"><div><i class="fas fa-envelope"></i>  amina.c@nexify.com · CTO</div><div>Strategy</div></div><div class="activity-row"><div><i class="fas fa-chart-line"></i>  james.w@nexify.com · VP Sales</div><div>Americas</div></div></div>
+    `;
+
+            const renderSettings = () => `
+      <div class="content-header"><div class="page-title"><h1>Organization Settings</h1><p>Enterprise preferences, security, and compliance</p></div><div class="badge-pro"><i class="fas fa-lock"></i> SOC2 Type II</div></div>
+      <div class="recent-section"><div class="section-title"><i class="fas fa-gear"></i> Configuration Portal</div><div class="activity-row"><span>🔐 SSO & SAML integration (Azure AD)</span><span>Active</span></div><div class="activity-row"><span>📋 Audit logs retention: 18 months</span><span>Compliant</span></div><div class="activity-row"><span>🌍 Regional data residency: EU, US, APAC</span><span>Configured</span></div><div class="activity-row"><span>🛡️ MFA enforcement · all admin roles</span><span>Enforced</span></div></div>
+      <div class="stat-card" style="margin-top:12px;"><div class="stat-header"><i class="fas fa-bell"></i> Notification preferences</div><div class="stat-label">Update enterprise alerts, SLAs monitored</div></div>
+    `;
+
+            const viewsMap = {
+                dashboard: renderDashboard,
+                analytics: renderAnalytics,
+                projects: renderProjects,
+                team: renderTeam,
+                settings: renderSettings
+            };
+
+            // set active view and update main content
+            function setActiveView(viewId) {
+                // update UI nav active class
+                navItems.forEach(item => {
+                    const itemView = item.getAttribute('data-view');
+                    if (itemView === viewId) {
+                        item.classList.add('active');
+                    } else {
+                        item.classList.remove('active');
+                    }
+                });
+                // render content
+                const renderFn = viewsMap[viewId];
+                if (renderFn) {
+                    viewContainer.innerHTML = renderFn();
+                } else {
+                    viewContainer.innerHTML = renderDashboard();
+                }
+                // after content load, ensure no style corruption
+            }
+
+            // attach navigation events
+            navItems.forEach(item => {
+                item.addEventListener('click', (e) => {
+                    const view = item.getAttribute('data-view');
+                    if (view) setActiveView(view);
+                });
+            });
+
+            // Sidebar collapse / expand logic (enterprise smooth)
+            let isCollapsed = false;
+            function toggleSidebar() {
+                isCollapsed = !isCollapsed;
+                if (isCollapsed) {
+                    sidebar.classList.add('collapsed');
+                    collapseIcon.classList.remove('fa-chevron-left');
+                    collapseIcon.classList.add('fa-chevron-right');
+                    // update toggle button text is hidden via css, but fine
+                } else {
+                    sidebar.classList.remove('collapsed');
+                    collapseIcon.classList.remove('fa-chevron-right');
+                    collapseIcon.classList.add('fa-chevron-left');
+                }
+                // dispatch resize event for any responsive grid adjustment (optional)
+                window.dispatchEvent(new Event('resize'));
+            }
+
+            collapseBtn.addEventListener('click', toggleSidebar);
+
+            // initial default dashboard
+            setActiveView('dashboard');
+
+            // handle responsive edge: on window resize if mobile and sidebar collapsed maybe fix overlay,
+            // but fine; also when screen small we add slight improvement: if window width < 768 and sidebar.expanded? Not needed.
+            // fix any missing overflow
+            const checkMobileClose = () => {
+                if (window.innerWidth < 768 && !sidebar.classList.contains('collapsed')) {
+                    // optional: to prevent large fixed sidebar on mobile we can leave as is (still usable)
+                    // but user can collapse manually. we do nothing but enhanced UX
+                }
+            };
+            window.addEventListener('resize', checkMobileClose);
+            checkMobileClose();
+        })();
+    </script>
+</body>
+
+</html>

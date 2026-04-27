@@ -1,14 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>Enterprise Core | Collapsible Sidebar</title>
-    <!-- Google Fonts & simple reset -->
-    <link
-        href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap"
-        rel="stylesheet">
+    <title>Enterprise Core | Smart Dashboard</title>
+    <!-- Google Fonts Inter with variable font support -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
     <!-- Font Awesome 6 (free icons) -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
@@ -19,174 +16,163 @@
         }
 
         body {
-            font-family: 'Inter', sans-serif;
-            background: #f0f2f6;
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            background: #f1f5f9;
             height: 100vh;
             overflow: hidden;
-            color: #1e293b;
+            color: #0f172a;
+            font-weight: 400;
+            line-height: 1.5;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
         }
 
-        /* --- APP WRAPPER (flex master) --- */
+        /* --- APP WRAPPER (flex container) --- */
         .app-wrapper {
             display: flex;
             height: 100vh;
             width: 100%;
-            transition: all 0.2s ease;
+            position: relative;
         }
 
-        /* ========= SIDEBAR (collapsible, enterprise) ========= */
+        /* ========= SIDEBAR (collapsible with smooth transitions) ========= */
         .sidebar {
-            background: linear-gradient(145deg, #0f172a 0%, #111827 100%);
+            background: linear-gradient(145deg, #0a0f1c 0%, #0f172a 100%);
             color: #e2e8f0;
             display: flex;
             flex-direction: column;
-            transition: width 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.1);
-            width: 65px;
-            /* expanded width */
+            transition: width 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.1), transform 0.2s ease;
+            width: 260px;
             flex-shrink: 0;
             overflow-x: hidden;
-            box-shadow: 4px 0 20px rgba(0, 0, 0, 0.08);
-            z-index: 10;
-            backdrop-filter: blur(0px);
+            box-shadow: 4px 0 24px rgba(0, 0, 0, 0.12);
+            z-index: 100;
+            height: 100%;
         }
 
-        /* collapsed state */
+        /* collapsed state: narrow but always visible (NO display:none) – better UX */
         .sidebar.collapsed {
-            width: 65px;
+            width: 80px;
         }
 
-        /* sidebar inner container for flex layout */
         .sidebar-inner {
             display: flex;
             flex-direction: column;
             height: 100%;
-            padding: 28px 0 28px 0;
+            padding: 24px 0 20px 0;
         }
 
-        /* logo / brand area */
+        /* brand / logo area */
         .brand-area {
             display: flex;
             align-items: center;
             justify-content: flex-start;
             padding: 0 20px;
-            margin-bottom: 40px;
+            margin-bottom: 36px;
             gap: 12px;
             white-space: nowrap;
             transition: all 0.2s;
         }
-
+        .sidebar.collapsed .brand-area {
+            padding: 0 12px;
+            justify-content: center;
+        }
         .brand-icon {
             font-size: 28px;
             color: #3b82f6;
-            background: rgba(59, 130, 246, 0.15);
-            width: 40px;
-            height: 40px;
-            border-radius: 12px;
+            background: rgba(59, 130, 246, 0.18);
+            width: 42px;
+            height: 42px;
+            border-radius: 14px;
             display: flex;
             align-items: center;
             justify-content: center;
+            flex-shrink: 0;
         }
-
         .brand-text {
             font-weight: 700;
-            font-size: 1.4rem;
+            font-size: 1.45rem;
             letter-spacing: -0.3px;
-            background: linear-gradient(135deg, #ffffff, #94a3b8);
+            background: linear-gradient(135deg, #ffffff, #a5b4fc);
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
+            transition: opacity 0.2s;
         }
-
         .sidebar.collapsed .brand-text {
             display: none;
         }
 
-        /* navigation menu */
+        /* navigation menu (vertical icons + label underneath style, improved) */
         .nav-menu {
             flex: 1;
             display: flex;
             flex-direction: column;
-            gap: 12px;
+            gap: 6px;
             padding: 0 12px;
         }
-
-        /* each nav item: side icons + name underneath (vertical flex) */
         .nav-item {
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            gap: 8px;
-            /* padding: 14px 14px; */
-            /* border-radius: 5px; */
+            gap: 6px;
+            padding: 12px 6px;
+            border-radius: 16px;
             cursor: pointer;
             transition: all 0.2s ease;
-            /* color: #cbd5e1; */
-            /* background: transparent; */
             text-align: center;
             font-weight: 500;
-            position: relative;
+            background: transparent;
+            color: #cbd5e1;
         }
-
-        /* icon size */
         .nav-item i {
-            font-size: 26px;
+            font-size: 24px;
             width: 32px;
             transition: transform 0.2s;
         }
-
-        /* label underneath */
         .nav-label {
-            font-size: 0.6rem;
+            font-size: 0.7rem;
             font-weight: 500;
-            letter-spacing: 0.3px;
+            letter-spacing: 0.2px;
             text-transform: capitalize;
-            transition: opacity 0.2s, font-size 0.1s;
             white-space: nowrap;
         }
-
-        /* when sidebar expanded, adjust spacing/alignment */
+        /* expanded state: more comfortable */
         .sidebar:not(.collapsed) .nav-item {
             flex-direction: column;
-            align-items: center;
             padding: 12px 8px;
         }
-
-        /* when collapsed: keep icon + label underneath but smaller spacing */
         .sidebar.collapsed .nav-item {
             padding: 12px 4px;
-            gap: 6px;
+            gap: 5px;
         }
-
         .sidebar.collapsed .nav-label {
             font-size: 0.65rem;
-            letter-spacing: 0.2px;
             opacity: 0.9;
         }
-
-        /* active / hover states */
         .nav-item.active {
             background: rgba(59, 130, 246, 0.2);
             color: white;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-            border: 0.5px solid rgba(59, 130, 246, 0.4);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+            border: 0.5px solid rgba(59, 130, 246, 0.5);
         }
-
         .nav-item:hover:not(.active) {
             background: rgba(255, 255, 255, 0.08);
             color: #f1f5f9;
-            transform: translateX(2px);
         }
 
-        /* collapse toggle button (enterprise style) */
+        /* toggle button & bottom actions */
         .toggle-btn-wrapper {
-            padding: 20px 16px 12px;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 20px 12px 16px;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
             margin-top: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
         }
-
         .toggle-sidebar {
-            background: rgba(45, 55, 72, 0.6);
+            background: rgba(30, 41, 59, 0.7);
             border: none;
             width: 100%;
             display: flex;
@@ -197,457 +183,636 @@
             border-radius: 40px;
             cursor: pointer;
             color: #e2e8f0;
-            font-size: 1rem;
+            font-size: 0.9rem;
             font-weight: 500;
             transition: all 0.2s;
-            backdrop-filter: blur(4px);
         }
-
-        .toggle-sidebar i {
-            font-size: 1.2rem;
+        .toggle-sidebar:hover {
+            background: #1e293b;
         }
-
         .toggle-text {
             white-space: nowrap;
-            font-size: 0.85rem;
+            font-size: 0.8rem;
         }
-
         .sidebar.collapsed .toggle-text {
             display: none;
         }
-
         .sidebar.collapsed .toggle-sidebar {
             justify-content: center;
             padding: 10px;
         }
 
-        /* ----- MAIN CONTENT (responsive & enterprise) ----- */
+        /* ----- MAIN CONTENT (fully responsive + centered on mobile even when sidebar open) ----- */
         .main-content {
             flex: 1;
             overflow-y: auto;
-            padding: 28px 32px;
+            padding: 24px 32px;
             background: #f8fafc;
-            transition: all 0.2s;
+            transition: all 0.25s ease;
+            width: 100%;
         }
 
-        /* enterprise header */
-        .content-header {
+        /* Enterprise top navbar: user avatar dropdown + notification bell */
+        .top-navbar {
             display: flex;
-            justify-content: space-between;
+            justify-content: flex-end;
             align-items: center;
+            gap: 24px;
+            margin-bottom: 28px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid #e2e8f0;
             flex-wrap: wrap;
-            margin-bottom: 32px;
+        }
+        .navbar-actions {
+            display: flex;
+            align-items: center;
             gap: 20px;
         }
-
-        .page-title h1 {
-            font-size: 1.8rem;
-            font-weight: 600;
-            color: #0f172a;
-            letter-spacing: -0.02em;
-        }
-
-        .page-title p {
-            color: #475569;
-            font-size: 0.9rem;
-            margin-top: 6px;
-        }
-
-        .header-actions {
-            display: flex;
-            gap: 16px;
-        }
-
-        .badge-pro {
+        .notification-btn {
             background: white;
-            border-radius: 40px;
-            padding: 8px 18px;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-            font-weight: 500;
-            font-size: 0.85rem;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            color: #0f172a;
-            border: 1px solid #e2e8f0;
-        }
-
-        .avatar {
-            background: #1e293b;
             width: 44px;
             height: 44px;
             border-radius: 40px;
             display: flex;
             align-items: center;
             justify-content: center;
+            cursor: pointer;
+            position: relative;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            border: 1px solid #e2e8f0;
+            transition: all 0.2s;
+            color: #1e293b;
+        }
+        .notification-btn:hover {
+            background: #f1f5f9;
+            transform: scale(0.98);
+        }
+        .notif-badge {
+            position: absolute;
+            top: -4px;
+            right: -6px;
+            background: #ef4444;
+            color: white;
+            font-size: 0.7rem;
+            font-weight: bold;
+            width: 18px;
+            height: 18px;
+            border-radius: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        /* user avatar with dropdown */
+        .user-dropdown {
+            position: relative;
+        }
+        .avatar-trigger {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: white;
+            padding: 6px 14px 6px 10px;
+            border-radius: 60px;
+            cursor: pointer;
+            border: 1px solid #e2e8f0;
+            transition: all 0.2s;
+        }
+        .avatar-img {
+            background: linear-gradient(135deg, #3b82f6, #6366f1);
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             color: white;
             font-weight: 600;
+        }
+        .user-info {
+            display: flex;
+            flex-direction: column;
+            line-height: 1.2;
+        }
+        .user-name {
+            font-weight: 600;
+            font-size: 0.85rem;
+            color: #0f172a;
+        }
+        .user-role {
+            font-size: 0.7rem;
+            color: #475569;
+        }
+        .dropdown-menu {
+            position: absolute;
+            top: 52px;
+            right: 0;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 35px -8px rgba(0,0,0,0.15);
+            width: 220px;
+            padding: 12px 0;
+            z-index: 200;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-8px);
+            transition: all 0.2s ease;
+            border: 1px solid #eef2ff;
+        }
+        .user-dropdown.active .dropdown-menu {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+        .dropdown-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 18px;
+            cursor: pointer;
+            transition: background 0.15s;
+            color: #1e293b;
+            font-size: 0.85rem;
+        }
+        .dropdown-item i {
+            width: 20px;
+            color: #5b6e8c;
+        }
+        .dropdown-item:hover {
+            background: #f1f5f9;
+        }
+        .divider {
+            height: 1px;
+            background: #eef2ff;
+            margin: 8px 0;
+        }
+
+        /* notification panel (slide from right) */
+        .notification-panel {
+            position: fixed;
+            top: 0;
+            right: -380px;
+            width: 360px;
+            height: 100vh;
+            background: white;
+            box-shadow: -5px 0 30px rgba(0,0,0,0.1);
+            z-index: 1000;
+            transition: right 0.3s cubic-bezier(0.2, 0.9, 0.4, 1);
+            display: flex;
+            flex-direction: column;
+            padding: 24px 0;
+        }
+        .notification-panel.open {
+            right: 0;
+        }
+        .notif-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px 16px;
+            border-bottom: 1px solid #eef2ff;
+        }
+        .notif-list {
+            flex: 1;
+            overflow-y: auto;
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+        .notif-item {
+            display: flex;
+            gap: 12px;
+            padding: 12px;
+            background: #f8fafc;
+            border-radius: 18px;
+        }
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.3);
+            z-index: 999;
+            opacity: 0;
+            visibility: hidden;
+            transition: 0.2s;
+        }
+        .overlay.show {
+            opacity: 1;
+            visibility: visible;
         }
 
         /* dashboard cards grid */
         .dashboard-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             gap: 24px;
-            margin-bottom: 40px;
+            margin-bottom: 36px;
         }
-
         .stat-card {
             background: white;
             border-radius: 28px;
-            padding: 20px 20px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+            padding: 20px 18px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.03);
             border: 1px solid #eef2ff;
-            transition: all 0.2s;
+            transition: transform 0.2s;
         }
-
         .stat-card:hover {
             transform: translateY(-2px);
-            box-shadow: 0 12px 20px -12px rgba(0, 0, 0, 0.1);
             border-color: #cbd5e1;
         }
-
         .stat-header {
             display: flex;
             align-items: center;
             gap: 14px;
-            margin-bottom: 16px;
+            margin-bottom: 12px;
         }
-
         .stat-icon {
-            background: #eef2ff;
             width: 48px;
             height: 48px;
-            border-radius: 28px;
+            background: #eef2ff;
+            border-radius: 30px;
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 24px;
-            color: #2563eb;
+            color: #3b82f6;
         }
-
         .stat-value {
-            font-size: 2rem;
+            font-size: 1.9rem;
             font-weight: 700;
             color: #0f172a;
+            line-height: 1.2;
         }
-
         .stat-label {
             color: #475569;
-            font-weight: 500;
             font-size: 0.85rem;
         }
-
-        /* table / recent activity */
         .recent-section {
             background: white;
             border-radius: 28px;
             padding: 24px;
             border: 1px solid #eef2ff;
-            margin-bottom: 20px;
         }
-
         .section-title {
-            font-weight: 600;
-            font-size: 1.25rem;
+            font-weight: 700;
+            font-size: 1.2rem;
             margin-bottom: 20px;
             display: flex;
+            gap: 10px;
             align-items: center;
-            gap: 8px;
         }
-
         .activity-row {
             display: flex;
             justify-content: space-between;
-            padding: 16px 0;
-            border-bottom: 1px solid #f1f5f9;
             align-items: center;
-            flex-wrap: wrap;
+            padding: 14px 0;
+            border-bottom: 1px solid #ecf3fa;
         }
-
         .activity-info {
             display: flex;
+            gap: 12px;
             align-items: center;
-            gap: 14px;
         }
-
         .activity-badge {
-            width: 36px;
-            height: 36px;
+            width: 32px;
+            height: 32px;
             background: #f1f5f9;
-            /* border-radius: 4px; */
+            border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
         }
+        /* scrollbar */
+        .main-content::-webkit-scrollbar { width: 5px; }
+        .main-content::-webkit-scrollbar-track { background: #e2e8f0; border-radius: 8px; }
+        .main-content::-webkit-scrollbar-thumb { background: #94a3b8; border-radius: 8px; }
 
-        /* responsive adjustments */
+        /* ========= MOBILE FIRST: Center main content and sidebar overlay ========= */
         @media (max-width: 768px) {
-            .main-content {
-                padding: 20px 16px;
-            }
-
             .sidebar {
                 position: fixed;
-                height: 100%;
                 top: 0;
                 left: 0;
-                z-index: 1000;
-                box-shadow: 8px 0 28px rgba(0, 0, 0, 0.2);
+                transform: translateX(-100%);
+                width: 260px;
+                z-index: 1050;
+                transition: transform 0.3s ease;
+                box-shadow: 8px 0 28px rgba(0,0,0,0.3);
             }
-
+            .sidebar.mobile-open {
+                transform: translateX(0);
+            }
+            /* when collapsed on mobile but open? we treat separate: we use hamburger */
             .sidebar.collapsed {
-                width: 80px;
+                width: 260px; /* mobile open is full width */
             }
-
-            .app-wrapper {
-                position: relative;
-            }
-
             .main-content {
-                margin-left: 0;
+                padding: 16px 20px;
                 width: 100%;
+                margin-left: 0;
+                transition: none;
             }
-
-            /* optional overlay for mobile collapsed? but default fine */
-            .toggle-text {
-                display: none;
+            /* mobile menu button (hamburger) */
+            .mobile-menu-btn {
+                display: flex;
+                background: white;
+                border: 1px solid #e2e8f0;
+                width: 44px;
+                height: 44px;
+                border-radius: 40px;
+                align-items: center;
+                justify-content: center;
+                font-size: 1.3rem;
+                cursor: pointer;
+                box-shadow: 0 1px 3px rgba(0,0,0,0.05);
             }
-
-            .sidebar.collapsed .toggle-text {
-                display: none;
+            .top-navbar {
+                justify-content: space-between;
+            }
+            .dashboard-grid {
+                gap: 16px;
+            }
+            .stat-value {
+                font-size: 1.5rem;
+            }
+            .sidebar-overlay-mobile {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0,0,0,0.4);
+                z-index: 1040;
+                opacity: 0;
+                visibility: hidden;
+                transition: 0.2s;
+            }
+            .sidebar-overlay-mobile.active {
+                opacity: 1;
+                visibility: visible;
             }
         }
-
-        /* subtle scroll */
-        .main-content::-webkit-scrollbar {
-            width: 6px;
+        /* desktop: hide mobile menu btn */
+        .mobile-menu-btn {
+            display: none;
         }
-
-        .main-content::-webkit-scrollbar-track {
-            background: #e2e8f0;
-            border-radius: 8px;
+        @media (max-width: 768px) {
+            .mobile-menu-btn {
+                display: flex;
+            }
         }
-
-        .main-content::-webkit-scrollbar-thumb {
-            background: #94a3b8;
-            border-radius: 8px;
+        /* fix font readability */
+        body, button, input, .nav-label, .stat-label, .activity-info {
+            font-family: 'Inter', sans-serif;
+        }
+        h1, h2, h3 {
+            font-weight: 600;
+            letter-spacing: -0.01em;
+        }
+        button {
+            cursor: pointer;
         }
     </style>
 </head>
-
 <body>
-    <div class="app-wrapper">
-        <!-- SIDEBAR: collapsable, only icons + name underneath (vertical) -->
-        <aside class="sidebar" id="sidebar">
-            <div class="sidebar-inner">
-                <!-- brand section -->
-                <div class="brand-area">
-                    <div class="brand-icon">
-                        <i class="fas fa-cube"></i>
-                    </div>
-                    <!-- <span class="brand-text">Nexify</span> -->
-                </div>
+<div class="app-wrapper">
+    <!-- Sidebar with collapsible and open/close icon logic -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-inner">
+            <div class="brand-area">
+                <div class="brand-icon"><i class="fas fa-cube"></i></div>
+                <span class="brand-text">Nexify</span>
+            </div>
+            <div class="nav-menu">
+                <div class="nav-item active" data-view="dashboard"><i class="fas fa-tachometer-alt"></i><span class="nav-label">Dashboard</span></div>
+                <div class="nav-item" data-view="analytics"><i class="fas fa-chart-line"></i><span class="nav-label">Analytics</span></div>
+                <div class="nav-item" data-view="projects"><i class="fas fa-layer-group"></i><span class="nav-label">Projects</span></div>
+                <div class="nav-item" data-view="team"><i class="fas fa-users"></i><span class="nav-label">Team</span></div>
+                <div class="nav-item" data-view="settings"><i class="fas fa-sliders-h"></i><span class="nav-label">Settings</span></div>
+            </div>
+            <div class="toggle-btn-wrapper">
+                <button class="toggle-sidebar" id="collapseBtnDesktop">
+                    <i class="fas fa-chevron-left" id="collapseIconDesktop"></i>
+                    <span class="toggle-text">Collapse</span>
+                </button>
+            </div>
+        </div>
+    </aside>
 
-                <!-- navigation: each item has icon + name underneath -->
-                <div class="nav-menu">
-                    <div class="nav-item active" data-view="dashboard">
-                        <i class="fas fa-tachometer-alt"></i>
-                        <span class="nav-label">Dashboard</span>
-                    </div>
-                    <div class="nav-item" data-view="analytics">
-                        <i class="fas fa-chart-line"></i>
-                        <span class="nav-label">Analytics</span>
-                    </div>
-                    <div class="nav-item" data-view="projects">
-                        <i class="fas fa-layer-group"></i>
-                        <span class="nav-label">Projects</span>
-                    </div>
-                    <div class="nav-item" data-view="team">
-                        <i class="fas fa-users"></i>
-                        <span class="nav-label">Team</span>
-                    </div>
-                    <div class="nav-item" data-view="settings">
-                        <i class="fas fa-sliders-h"></i>
-                        <span class="nav-label">Settings</span>
-                    </div>
-                </div>
+    <!-- Mobile overlay for sidebar -->
+    <div class="sidebar-overlay-mobile" id="mobileOverlay"></div>
 
-                <!-- collapse toggle button -->
-                <div class="toggle-btn-wrapper">
-                    <button class="toggle-sidebar" id="collapseBtn">
-                        <i class="fas fa-chevron-left" id="collapseIcon"></i>
-                        <span class="toggle-text">Collapse</span>
-                    </button>
+    <!-- Main Content Area -->
+    <main class="main-content" id="mainContent">
+        <!-- Top Navbar with avatar dropdown & notifications & collapse/open icon for nav (mobile) -->
+        <div class="top-navbar">
+            <div class="mobile-menu-btn" id="mobileMenuToggle">
+                <i class="fas fa-bars"></i>
+            </div>
+            <div class="navbar-actions">
+                <!-- Notification bell -->
+                <div class="notification-btn" id="notificationBtn">
+                    <i class="fas fa-bell"></i>
+                    <span class="notif-badge">3</span>
+                </div>
+                <!-- User avatar dropdown -->
+                <div class="user-dropdown" id="userDropdown">
+                    <div class="avatar-trigger">
+                        <div class="avatar-img"><i class="fas fa-user-tie"></i></div>
+                        <div class="user-info">
+                            <span class="user-name">Alex Morgan</span>
+                            <span class="user-role">Admin</span>
+                        </div>
+                        <i class="fas fa-chevron-down" style="font-size: 12px;"></i>
+                    </div>
+                    <div class="dropdown-menu">
+                        <div class="dropdown-item"><i class="fas fa-user-circle"></i> My Profile</div>
+                        <div class="dropdown-item"><i class="fas fa-cog"></i> Account Settings</div>
+                        <div class="dropdown-item"><i class="fas fa-chart-pie"></i> Billing</div>
+                        <div class="divider"></div>
+                        <div class="dropdown-item"><i class="fas fa-sign-out-alt"></i> Sign Out</div>
+                    </div>
                 </div>
             </div>
-        </aside>
+        </div>
 
-        <!-- MAIN CONTENT (enterprise dashboard, dynamic) -->
-        <main class="main-content" id="mainContent">
-            <!-- dynamic header placeholder but will be updated via JS for each view? 
-    we'll build dashboard view by default, but we also handle view switching using enterprise data -->
-            <div id="viewContainer">
-                <!-- Dashboard view injected initially -->
-            </div>
-        </main>
+        <div id="viewContainer">
+            <!-- dynamic content injected by JS, but default dashboard loaded -->
+        </div>
+    </main>
+
+    <!-- Notification Panel -->
+    <div class="notification-panel" id="notifPanel">
+        <div class="notif-header">
+            <h4><i class="fas fa-bell"></i> Notifications</h4>
+            <i class="fas fa-times" id="closeNotif" style="cursor:pointer;"></i>
+        </div>
+        <div class="notif-list">
+            <div class="notif-item"><i class="fas fa-check-circle" style="color:#22c55e;"></i> Deployment successful: v3.2</div>
+            <div class="notif-item"><i class="fas fa-user-plus"></i> New team member joined</div>
+            <div class="notif-item"><i class="fas fa-chart-line"></i> Daily analytics report ready</div>
+        </div>
     </div>
+    <div class="overlay" id="panelOverlay"></div>
 
     <script>
-        (function () {
+        (function() {
             // DOM elements
             const sidebar = document.getElementById('sidebar');
-            const collapseBtn = document.getElementById('collapseBtn');
-            const collapseIcon = document.getElementById('collapseIcon');
-            const navItems = document.querySelectorAll('.nav-item');
+            const collapseBtnDesktop = document.getElementById('collapseBtnDesktop');
+            const collapseIconDesktop = document.getElementById('collapseIconDesktop');
+            const mobileMenuToggle = document.getElementById('mobileMenuToggle');
+            const mobileOverlay = document.getElementById('mobileOverlay');
+            const userDropdown = document.getElementById('userDropdown');
+            const notificationBtn = document.getElementById('notificationBtn');
+            const notifPanel = document.getElementById('notifPanel');
+            const panelOverlay = document.getElementById('panelOverlay');
+            const closeNotif = document.getElementById('closeNotif');
             const viewContainer = document.getElementById('viewContainer');
+            const navItems = document.querySelectorAll('.sidebar .nav-item');
 
-            // ---------- Enterprise view content mapping (side icons + name navigation) ----------
-            // Each view returns HTML representing enterprise-level data
-
-            const renderDashboard = () => `
-      <div class="content-header">
-        <div class="page-title">
-          <h1>Executive Dashboard</h1>
-          <p>Real-time insights & key metrics for enterprise operations</p>
-        </div>
-        <div class="header-actions">
-          <div class="badge-pro"><i class="fas fa-chart-simple"></i> Q2 Enterprise</div>
-          <div class="avatar"><i class="fas fa-user-tie"></i></div>
-        </div>
-      </div>
-      <div class="dashboard-grid">
-        <div class="stat-card">
-          <div class="stat-header"><div class="stat-icon"><i class="fas fa-dollar-sign"></i></div><div><div class="stat-value">$12.4M</div><div class="stat-label">Total Revenue</div></div></div>
-          <div class="stat-label">↑ 23% vs last quarter</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-header"><div class="stat-icon"><i class="fas fa-user-plus"></i></div><div><div class="stat-value">1,284</div><div class="stat-label">Active Users</div></div></div>
-          <div class="stat-label">Enterprise seats +12%</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-header"><div class="stat-icon"><i class="fas fa-cloud-upload-alt"></i></div><div><div class="stat-value">99.96%</div><div class="stat-label">Uptime SLA</div></div></div>
-          <div class="stat-label">Premium infrastructure</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-header"><div class="stat-icon"><i class="fas fa-tasks"></i></div><div><div class="stat-value">48</div><div class="stat-label">Active Projects</div></div></div>
-          <div class="stat-label">On track: 34 completed</div>
-        </div>
-      </div>
-      <div class="recent-section">
-        <div class="section-title"><i class="fas fa-clock"></i> Recent Enterprise Activity</div>
-        <div class="activity-row"><div class="activity-info"><div class="activity-badge"><i class="fas fa-rocket"></i></div><span><strong>Deployment</strong> · Microservices v3.2</span></div><span>2 hours ago</span></div>
-        <div class="activity-row"><div class="activity-info"><div class="activity-badge"><i class="fas fa-file-invoice"></i></div><span><strong>Invoice</strong> · Enterprise Gold Plan</span></div><span>Yesterday</span></div>
-        <div class="activity-row"><div class="activity-info"><div class="activity-badge"><i class="fas fa-database"></i></div><span><strong>Data Sync</strong> · Analytics warehouse</span></div><span>Aug 14, 2025</span></div>
-        <div class="activity-row"><div class="activity-info"><div class="activity-badge"><i class="fas fa-shield-alt"></i></div><span><strong>Security Audit</strong> · SOC2 passed</span></div><span>3 days ago</span></div>
-      </div>
-    `;
-
-            const renderAnalytics = () => `
-      <div class="content-header"><div class="page-title"><h1>Analytics Hub</h1><p>Enterprise KPIs, predictive metrics & intelligence</p></div><div class="badge-pro"><i class="fas fa-chart-line"></i> Live insights</div></div>
-      <div class="dashboard-grid">
-        <div class="stat-card"><div class="stat-header"><div class="stat-icon"><i class="fas fa-chart-pie"></i></div><div><div class="stat-value">64%</div><div class="stat-label">Market share</div></div></div><div class="stat-label">+5% YoY</div></div>
-        <div class="stat-card"><div class="stat-header"><div class="stat-icon"><i class="fas fa-users-viewfinder"></i></div><div><div class="stat-value">58.2K</div><div class="stat-label">Daily Active Org</div></div></div><div class="stat-label">Enterprise sessions</div></div>
-        <div class="stat-card"><div class="stat-header"><div class="stat-icon"><i class="fas fa-chart-simple"></i></div><div><div class="stat-value">$2.8M</div><div class="stat-label">ARR Growth</div></div></div><div class="stat-label">Forecast Q3</div></div>
-      </div>
-      <div class="recent-section"><div class="section-title"><i class="fas fa-chart-column"></i> Top performing segments</div><div class="activity-row"><div class="activity-info"><div class="activity-badge"><i class="fas fa-building"></i></div><span>Financial Services · +32% engagement</span></div><span>trending</span></div><div class="activity-row"><div class="activity-info"><div class="activity-badge"><i class="fas fa-store"></i></div><span>Retail Enterprise · $1.2M pipeline</span></div><span>new high</span></div></div>
-    `;
-
-            const renderProjects = () => `
-      <div class="content-header"><div class="page-title"><h1>Project Portfolio</h1><p>Enterprise initiatives & strategic workflows</p></div><div class="badge-pro"><i class="fas fa-plus-circle"></i> New initiative</div></div>
-      <div class="dashboard-grid"><div class="stat-card"><div class="stat-header"><div class="stat-icon"><i class="fas fa-code-branch"></i></div><div><div class="stat-value">12</div><div class="stat-label">DevOps Streams</div></div></div></div>
-      <div class="stat-card"><div class="stat-header"><div class="stat-icon"><i class="fas fa-cloud"></i></div><div><div class="stat-value">6</div><div class="stat-label">Cloud Migrations</div></div></div></div>
-      <div class="stat-card"><div class="stat-header"><div class="stat-icon"><i class="fas fa-robot"></i></div><div><div class="stat-value">3</div><div class="stat-label">AI Pilots</div></div></div></div></div>
-      <div class="recent-section"><div class="section-title"><i class="fas fa-list-check"></i> Current Sprints</div><div class="activity-row"><span>🔹 Omni-channel Platform (85% complete)</span><span>Due Sep 12</span></div><div class="activity-row"><span>🔹 Zero-trust Security Overlay (Sprint 3)</span><span>On target</span></div><div class="activity-row"><span>🔹 Data Mesh Architecture (Discovery)</span><span>Q4 planning</span></div></div>
-    `;
-
-            const renderTeam = () => `
-      <div class="content-header"><div class="page-title"><h1>Enterprise Units</h1><p>Leadership & cross-functional squads</p></div><div class="avatar-group"><div class="badge-pro"><i class="fas fa-user-plus"></i> Invite member</div></div></div>
-      <div class="dashboard-grid"><div class="stat-card"><div class="stat-header"><i class="fas fa-user-tie fa-2x" style="color:#2563eb;"></i><div style="margin-left:12px"><div class="stat-value">8</div><div class="stat-label">Directors</div></div></div></div>
-      <div class="stat-card"><div class="stat-header"><i class="fas fa-laptop-code fa-2x"></i><div style="margin-left:12px"><div class="stat-value">24</div><div class="stat-label">Engineers</div></div></div></div>
-      <div class="stat-card"><div class="stat-header"><i class="fas fa-chalkboard-user fa-2x"></i><div style="margin-left:12px"><div class="stat-value">12</div><div class="stat-label">Product Leads</div></div></div></div></div>
-      <div class="recent-section"><div class="section-title"><i class="fas-regular fa-address-card"></i> Core Leadership</div><div class="activity-row"><div><i class="fas fa-envelope"></i>  amina.c@nexify.com · CTO</div><div>Strategy</div></div><div class="activity-row"><div><i class="fas fa-chart-line"></i>  james.w@nexify.com · VP Sales</div><div>Americas</div></div></div>
-    `;
-
-            const renderSettings = () => `
-      <div class="content-header"><div class="page-title"><h1>Organization Settings</h1><p>Enterprise preferences, security, and compliance</p></div><div class="badge-pro"><i class="fas fa-lock"></i> SOC2 Type II</div></div>
-      <div class="recent-section"><div class="section-title"><i class="fas fa-gear"></i> Configuration Portal</div><div class="activity-row"><span>🔐 SSO & SAML integration (Azure AD)</span><span>Active</span></div><div class="activity-row"><span>📋 Audit logs retention: 18 months</span><span>Compliant</span></div><div class="activity-row"><span>🌍 Regional data residency: EU, US, APAC</span><span>Configured</span></div><div class="activity-row"><span>🛡️ MFA enforcement · all admin roles</span><span>Enforced</span></div></div>
-      <div class="stat-card" style="margin-top:12px;"><div class="stat-header"><i class="fas fa-bell"></i> Notification preferences</div><div class="stat-label">Update enterprise alerts, SLAs monitored</div></div>
-    `;
-
-            const viewsMap = {
-                dashboard: renderDashboard,
-                analytics: renderAnalytics,
-                projects: renderProjects,
-                team: renderTeam,
-                settings: renderSettings
-            };
-
-            // set active view and update main content
-            function setActiveView(viewId) {
-                // update UI nav active class
-                navItems.forEach(item => {
-                    const itemView = item.getAttribute('data-view');
-                    if (itemView === viewId) {
-                        item.classList.add('active');
-                    } else {
-                        item.classList.remove('active');
-                    }
-                });
-                // render content
-                const renderFn = viewsMap[viewId];
-                if (renderFn) {
-                    viewContainer.innerHTML = renderFn();
-                } else {
-                    viewContainer.innerHTML = renderDashboard();
-                }
-                // after content load, ensure no style corruption
-            }
-
-            // attach navigation events
-            navItems.forEach(item => {
-                item.addEventListener('click', (e) => {
-                    const view = item.getAttribute('data-view');
-                    if (view) setActiveView(view);
-                });
-            });
-
-            // Sidebar collapse / expand logic (enterprise smooth)
-            let isCollapsed = false;
-            function toggleSidebar() {
-                isCollapsed = !isCollapsed;
+            // Collapse/expand state (desktop and sync)
+            let isCollapsed = localStorage.getItem('sidebarCollapsed') === 'true';
+            
+            function updateSidebarState() {
                 if (isCollapsed) {
                     sidebar.classList.add('collapsed');
-                    collapseIcon.classList.remove('fa-chevron-left');
-                    collapseIcon.classList.add('fa-chevron-right');
-                    // update toggle button text is hidden via css, but fine
+                    if(collapseIconDesktop) {
+                        collapseIconDesktop.classList.remove('fa-chevron-left');
+                        collapseIconDesktop.classList.add('fa-chevron-right');
+                    }
                 } else {
                     sidebar.classList.remove('collapsed');
-                    collapseIcon.classList.remove('fa-chevron-right');
-                    collapseIcon.classList.add('fa-chevron-left');
+                    if(collapseIconDesktop) {
+                        collapseIconDesktop.classList.remove('fa-chevron-right');
+                        collapseIconDesktop.classList.add('fa-chevron-left');
+                    }
                 }
-                // dispatch resize event for any responsive grid adjustment (optional)
-                window.dispatchEvent(new Event('resize'));
+                localStorage.setItem('sidebarCollapsed', isCollapsed);
             }
-
-            collapseBtn.addEventListener('click', toggleSidebar);
-
-            // initial default dashboard
-            setActiveView('dashboard');
-
-            // handle responsive edge: on window resize if mobile and sidebar collapsed maybe fix overlay,
-            // but fine; also when screen small we add slight improvement: if window width < 768 and sidebar.expanded? Not needed.
-            // fix any missing overflow
-            const checkMobileClose = () => {
-                if (window.innerWidth < 768 && !sidebar.classList.contains('collapsed')) {
-                    // optional: to prevent large fixed sidebar on mobile we can leave as is (still usable)
-                    // but user can collapse manually. we do nothing but enhanced UX
+            
+            function toggleSidebarDesktop() {
+                isCollapsed = !isCollapsed;
+                updateSidebarState();
+            }
+            
+            if(collapseBtnDesktop) collapseBtnDesktop.addEventListener('click', toggleSidebarDesktop);
+            updateSidebarState();
+            
+            // Mobile sidebar logic: open/close with overlay, make sure main content stays centered
+            let mobileSidebarOpen = false;
+            function openMobileSidebar() {
+                sidebar.classList.add('mobile-open');
+                mobileOverlay.classList.add('active');
+                mobileSidebarOpen = true;
+                document.body.style.overflow = 'hidden';
+            }
+            function closeMobileSidebar() {
+                sidebar.classList.remove('mobile-open');
+                mobileOverlay.classList.remove('active');
+                mobileSidebarOpen = false;
+                document.body.style.overflow = '';
+            }
+            if(mobileMenuToggle) {
+                mobileMenuToggle.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    if(mobileSidebarOpen) closeMobileSidebar();
+                    else openMobileSidebar();
+                });
+            }
+            mobileOverlay?.addEventListener('click', closeMobileSidebar);
+            // on resize if >768 and mobile-open class remove
+            window.addEventListener('resize', () => {
+                if(window.innerWidth > 768 && mobileSidebarOpen) {
+                    closeMobileSidebar();
                 }
+            });
+            
+            // close sidebar when a nav item clicked (mobile)
+            navItems.forEach(item => {
+                item.addEventListener('click', (e) => {
+                    if(window.innerWidth <= 768 && mobileSidebarOpen) {
+                        closeMobileSidebar();
+                    }
+                });
+            });
+            
+            // User avatar dropdown toggle
+            userDropdown?.addEventListener('click', (e) => {
+                e.stopPropagation();
+                userDropdown.classList.toggle('active');
+            });
+            document.addEventListener('click', (e) => {
+                if(!userDropdown?.contains(e.target)) userDropdown?.classList.remove('active');
+                if(notifPanel?.classList.contains('open') && !notificationBtn?.contains(e.target) && !notifPanel?.contains(e.target)) {
+                    closeNotificationPanel();
+                }
+            });
+            
+            // Notification panel logic
+            function openNotificationPanel() {
+                notifPanel.classList.add('open');
+                panelOverlay.classList.add('show');
+            }
+            function closeNotificationPanel() {
+                notifPanel.classList.remove('open');
+                panelOverlay.classList.remove('show');
+            }
+            notificationBtn?.addEventListener('click', (e) => {
+                e.stopPropagation();
+                if(notifPanel.classList.contains('open')) closeNotificationPanel();
+                else openNotificationPanel();
+            });
+            closeNotif?.addEventListener('click', closeNotificationPanel);
+            panelOverlay?.addEventListener('click', closeNotificationPanel);
+            
+            // ----- View management (dynamic & enterprise content) -----
+            const viewsData = {
+                dashboard: `
+                    <div class="content-header" style="margin-bottom:24px;"><div class="page-title"><h1>Executive Dashboard</h1><p>Real-time insights & key metrics</p></div></div>
+                    <div class="dashboard-grid">
+                        <div class="stat-card"><div class="stat-header"><div class="stat-icon"><i class="fas fa-dollar-sign"></i></div><div><div class="stat-value">$12.4M</div><div class="stat-label">Total Revenue</div></div></div><div class="stat-label">↑ 23% vs last quarter</div></div>
+                        <div class="stat-card"><div class="stat-header"><div class="stat-icon"><i class="fas fa-user-plus"></i></div><div><div class="stat-value">1,284</div><div class="stat-label">Active Users</div></div></div><div class="stat-label">Enterprise seats +12%</div></div>
+                        <div class="stat-card"><div class="stat-header"><div class="stat-icon"><i class="fas fa-cloud-upload-alt"></i></div><div><div class="stat-value">99.96%</div><div class="stat-label">Uptime SLA</div></div></div><div class="stat-label">Premium infrastructure</div></div>
+                        <div class="stat-card"><div class="stat-header"><div class="stat-icon"><i class="fas fa-tasks"></i></div><div><div class="stat-value">48</div><div class="stat-label">Active Projects</div></div></div><div class="stat-label">On track: 34 completed</div></div>
+                    </div>
+                    <div class="recent-section"><div class="section-title"><i class="fas fa-clock"></i> Recent Activity</div>
+                        <div class="activity-row"><div class="activity-info"><div class="activity-badge"><i class="fas fa-rocket"></i></div><span><strong>Deployment</strong> · Microservices v3.2</span></div><span>2h ago</span></div>
+                        <div class="activity-row"><div class="activity-info"><div class="activity-badge"><i class="fas fa-file-invoice"></i></div><span><strong>Invoice</strong> · Enterprise Gold Plan</span></div><span>Yesterday</span></div>
+                        <div class="activity-row"><div class="activity-info"><div class="activity-badge"><i class="fas fa-database"></i></div><span><strong>Data Sync</strong> · Analytics warehouse</span></div><span>Aug 14</span></div>
+                    </div>
+                `,
+                analytics: `<div style="background:white; border-radius:28px; padding:32px; text-align:center;"><i class="fas fa-chart-line" style="font-size:48px; color:#3b82f6;"></i><h2 style="margin-top:20px;">Analytics Overview</h2><p>Enterprise metrics, KPI trends, and forecasting reports.</p></div>`,
+                projects: `<div style="background:white; border-radius:28px; padding:32px;"><h2><i class="fas fa-layer-group"></i> Active Projects</h2><ul style="margin-top:20px;"><li>AI Core Platform - 78%</li><li>Data Lakehouse - 45%</li><li>Zero Trust Security - 92%</li></ul></div>`,
+                team: `<div style="background:white; border-radius:28px; padding:32px;"><h2><i class="fas fa-users"></i> Team Collaboration</h2><p>Enterprise members & roles management.</p></div>`,
+                settings: `<div style="background:white; border-radius:28px; padding:32px;"><h2><i class="fas fa-sliders-h"></i> System Settings</h2><p>Configure workspace, API keys & permissions.</p></div>`
             };
-            window.addEventListener('resize', checkMobileClose);
-            checkMobileClose();
+            
+            function setActiveView(viewId) {
+                if(viewsData[viewId]) {
+                    viewContainer.innerHTML = viewsData[viewId];
+                } else {
+                    viewContainer.innerHTML = viewsData.dashboard;
+                }
+                navItems.forEach(item => {
+                    const itemView = item.getAttribute('data-view');
+                    if(itemView === viewId) item.classList.add('active');
+                    else item.classList.remove('active');
+                });
+            }
+            
+            navItems.forEach(item => {
+                item.addEventListener('click', () => {
+                    const view = item.getAttribute('data-view');
+                    if(view) setActiveView(view);
+                });
+            });
+            
+            // default dashboard
+            setActiveView('dashboard');
         })();
     </script>
 </body>
-
 </html>

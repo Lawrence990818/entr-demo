@@ -625,7 +625,7 @@
                 support: {title: "Support", sub: "Help & resources"}
             };
             const data = titles[viewId] || titles.dashboard;
-            dynamicTitle.innerText = data.title;
+            // dynamicTitle.innerText = data.title;
             dynamicSub.innerText = data.sub;
             document.querySelectorAll('[data-view]').forEach(item => {
                 if(item.getAttribute('data-view') === viewId) item.classList.add('active');

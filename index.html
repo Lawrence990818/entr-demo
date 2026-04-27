@@ -1,11 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>Enterprise Core | Offcanvas Notifications</title>
+    <title>Enterprise Core | Nexus Dashboard</title>
     <!-- Google Fonts Inter -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap"
+        rel="stylesheet">
     <!-- Font Awesome 6 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
@@ -32,7 +35,7 @@
             position: relative;
         }
 
-        /* ========= SIDEBAR ========= */
+        /* ========= SIDEBAR - ENHANCED ========= */
         .sidebar {
             background: linear-gradient(145deg, #0a0f1c 0%, #0f172a 100%);
             color: #e2e8f0;
@@ -57,6 +60,7 @@
             padding: 24px 0 20px 0;
         }
 
+        /* Brand area with actual company logo */
         .brand-area {
             display: flex;
             align-items: center;
@@ -65,30 +69,43 @@
             margin-bottom: 36px;
             gap: 12px;
             white-space: nowrap;
+            transition: all 0.2s;
         }
-        .brand-icon {
-            font-size: 28px;
-            color: #3b82f6;
-            background: rgba(59, 130, 246, 0.2);
+
+        .brand-logo {
             width: 42px;
             height: 42px;
+            background: linear-gradient(135deg, #3b82f6, #1e40af);
             border-radius: 14px;
             display: flex;
             align-items: center;
             justify-content: center;
-        }
-        .brand-text {
+            font-size: 24px;
             font-weight: 700;
-            font-size: 1.5rem;
-            background: linear-gradient(135deg, #ffffff, #94a3b8);
+            color: white;
+            box-shadow: 0 8px 20px -6px rgba(59, 130, 246, 0.4);
+        }
+
+        .brand-text {
+            font-weight: 800;
+            font-size: 1.55rem;
+            letter-spacing: -0.5px;
+            background: linear-gradient(135deg, #ffffff, #a5f3fc);
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
         }
-        .sidebar.collapsed .brand-text { display: none; }
-        .sidebar.collapsed .brand-area { justify-content: center; padding: 0; }
 
-        /* Navigation: side-by-side (icon + text) */
+        .sidebar.collapsed .brand-text {
+            display: none;
+        }
+
+        .sidebar.collapsed .brand-area {
+            justify-content: center;
+            padding: 0;
+        }
+
+        /* Navigation items */
         .nav-menu {
             flex: 1;
             display: flex;
@@ -96,6 +113,7 @@
             gap: 8px;
             padding: 0 12px;
         }
+
         .nav-item {
             display: flex;
             align-items: center;
@@ -103,13 +121,22 @@
             padding: 12px 16px;
             border-radius: 16px;
             cursor: pointer;
-            transition: all 0.2s;
+            transition: all 0.2s ease;
             font-weight: 500;
             color: #cbd5e6;
             white-space: nowrap;
         }
-        .nav-item i { font-size: 22px; width: 28px; }
-        .nav-label { font-size: 0.9rem; }
+
+        .nav-item i {
+            font-size: 22px;
+            width: 28px;
+            text-align: center;
+        }
+
+        .nav-label {
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
 
         .sidebar.collapsed .nav-item {
             flex-direction: column;
@@ -118,16 +145,27 @@
             padding: 10px 4px;
             text-align: center;
         }
-        .sidebar.collapsed .nav-label { font-size: 0.65rem; }
+
+        .sidebar.collapsed .nav-label {
+            font-size: 0.65rem;
+        }
+
+        .sidebar.collapsed .nav-item i {
+            font-size: 24px;
+            width: auto;
+        }
 
         .nav-item.active {
             background: rgba(59, 130, 246, 0.25);
             color: white;
             box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+            border: 0.5px solid rgba(59, 130, 246, 0.5);
         }
+
         .nav-item:hover:not(.active) {
             background: rgba(255, 255, 255, 0.08);
             color: #f1f5f9;
+            transform: translateX(2px);
         }
 
         .toggle-btn-wrapper {
@@ -138,6 +176,7 @@
             flex-direction: column;
             gap: 8px;
         }
+
         .bottom-nav-item {
             display: flex;
             align-items: center;
@@ -145,9 +184,15 @@
             padding: 10px 16px;
             border-radius: 14px;
             cursor: pointer;
+            transition: 0.2s;
             color: #cbd5e6;
         }
-        .bottom-nav-item i { font-size: 20px; width: 28px; }
+
+        .bottom-nav-item i {
+            font-size: 20px;
+            width: 28px;
+        }
+
         .sidebar.collapsed .bottom-nav-item {
             flex-direction: column;
             justify-content: center;
@@ -155,7 +200,10 @@
             padding: 10px 4px;
             text-align: center;
         }
-        .sidebar.collapsed .bottom-nav-item .nav-label { font-size: 0.65rem; }
+
+        .sidebar.collapsed .bottom-nav-item .nav-label {
+            font-size: 0.65rem;
+        }
 
         .toggle-sidebar {
             background: rgba(45, 55, 72, 0.7);
@@ -169,10 +217,14 @@
             border-radius: 40px;
             cursor: pointer;
             color: #e2e8f0;
+            font-size: 0.9rem;
+            font-weight: 500;
             margin-top: 12px;
         }
-        .toggle-text { white-space: nowrap; font-size: 0.8rem; }
-        .sidebar.collapsed .toggle-text { display: none; }
+
+        .sidebar.collapsed .toggle-text {
+            display: none;
+        }
 
         /* MAIN CONTENT */
         .main-content {
@@ -180,9 +232,10 @@
             overflow-y: auto;
             padding: 24px 32px;
             background: #f8fafc;
+            transition: all 0.2s;
         }
 
-        /* Top navbar */
+        /* IMPROVED TOP NAVBAR with Logo, Notif offcanvas, Profile with Avatar + Role */
         .top-navbar {
             display: flex;
             justify-content: space-between;
@@ -190,26 +243,86 @@
             flex-wrap: wrap;
             margin-bottom: 28px;
             background: white;
-            padding: 10px 24px;
-            border-radius: 32px;
+            padding: 8px 24px;
+            border-radius: 40px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02), 0 1px 2px rgba(0, 0, 0, 0.03);
             border: 1px solid #eef2f6;
         }
-        .page-title-area h1 { font-size: 1.65rem; font-weight: 700; }
-        .page-title-area p { color: #475569; font-size: 0.85rem; margin-top: 4px; }
-        .navbar-right { display: flex; align-items: center; gap: 20px; }
+
+        .navbar-left {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+        }
+
+        /* Company logo in navbar (distinct from sidebar) */
+        .navbar-company-logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: #f8fafc;
+            padding: 5px 14px 5px 10px;
+            border-radius: 60px;
+            border: 1px solid #eef2f8;
+        }
+
+        .navbar-logo-icon {
+            width: 36px;
+            height: 36px;
+            background: linear-gradient(145deg, #1e3a8a, #3b82f6);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            font-weight: bold;
+            color: white;
+        }
+
+        .navbar-company-name {
+            font-weight: 700;
+            font-size: 1rem;
+            color: #0f172a;
+            letter-spacing: -0.2px;
+        }
+
+        .page-title-area h1 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #0f172a;
+        }
+
+        .page-title-area p {
+            color: #475569;
+            font-size: 0.8rem;
+            margin-top: 2px;
+        }
+
+        .navbar-right {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        /* Notification bell */
         .notification-bell {
             position: relative;
             background: #f1f5f9;
-            width: 42px;
-            height: 42px;
+            width: 44px;
+            height: 44px;
             display: flex;
             align-items: center;
             justify-content: center;
             border-radius: 40px;
             cursor: pointer;
             transition: all 0.2s;
+            color: #1e293b;
         }
-        .notification-bell:hover { background: #e6edf4; }
+
+        .notification-bell:hover {
+            background: #e2e8f0;
+        }
+
         .badge-dot {
             position: absolute;
             top: 8px;
@@ -220,187 +333,251 @@
             border-radius: 50%;
             border: 2px solid white;
         }
-        .user-dropdown { position: relative; }
+
+        /* Enhanced Profile with Avatar + Role */
+        .user-dropdown {
+            position: relative;
+        }
+
         .user-avatar-btn {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 12px;
             background: white;
             border: 1px solid #e2e8f0;
             border-radius: 60px;
-            padding: 6px 14px 6px 10px;
+            padding: 6px 16px 6px 8px;
             cursor: pointer;
+            transition: all 0.2s;
+            background: #ffffff;
         }
-        .user-avatar-btn i:first-child { font-size: 22px; color: #3b82f6; }
-        .user-name { font-weight: 600; display: none; }
-        @media (min-width: 640px) { .user-name { display: inline-block; } }
+
+        .user-avatar-img {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 18px;
+        }
+
+        .user-info {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            line-height: 1.3;
+        }
+
+        .user-name {
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: #0f172a;
+        }
+
+        .user-role {
+            font-size: 0.7rem;
+            color: #3b82f6;
+            background: #eef2ff;
+            padding: 2px 8px;
+            border-radius: 30px;
+            font-weight: 600;
+        }
+
         .dropdown-menu {
             position: absolute;
-            top: 52px;
+            top: 56px;
             right: 0;
             background: white;
-            border-radius: 20px;
-            box-shadow: 0 20px 35px -12px rgba(0,0,0,0.15);
-            width: 220px;
+            border-radius: 24px;
+            box-shadow: 0 20px 35px -12px rgba(0, 0, 0, 0.2);
+            width: 250px;
             padding: 12px 0;
             z-index: 200;
             opacity: 0;
             visibility: hidden;
             transform: translateY(-8px);
+            transition: all 0.2s ease;
+            border: 1px solid #eef2f8;
+        }
+
+        .dropdown-menu.show {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .dropdown-item {
+            padding: 10px 20px;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            font-size: 0.85rem;
+            color: #1e293b;
+            cursor: pointer;
+        }
+
+        .dropdown-item i {
+            width: 22px;
+            color: #5b6e8c;
+        }
+
+        .dropdown-item:hover {
+            background: #f1f5f9;
+        }
+
+        .divider {
+            height: 1px;
+            background: #eef2f8;
+            margin: 8px 0;
+        }
+
+        /* ========= NOTIFICATION OFF-CANVAS (SLIDE-OUT PANEL) ========= */
+        .offcanvas-notification {
+            position: fixed;
+            top: 0;
+            right: -380px;
+            width: 380px;
+            max-width: 85vw;
+            height: 100vh;
+            background: white;
+            box-shadow: -8px 0 30px rgba(0, 0, 0, 0.15);
+            z-index: 1150;
+            transition: right 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+            display: flex;
+            flex-direction: column;
+            border-left: 1px solid #eef2f8;
+        }
+
+        .offcanvas-notification.open {
+            right: 0;
+        }
+
+        .offcanvas-header {
+            padding: 24px 24px 16px;
+            border-bottom: 1px solid #edf2f7;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .offcanvas-header h3 {
+            font-weight: 700;
+            font-size: 1.3rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .close-offcanvas {
+            background: #f1f5f9;
+            border: none;
+            width: 36px;
+            height: 36px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 1.2rem;
+        }
+
+        .notification-list {
+            flex: 1;
+            overflow-y: auto;
+            padding: 16px;
+        }
+
+        .notification-item {
+            display: flex;
+            gap: 14px;
+            padding: 16px 12px;
+            border-radius: 20px;
+            background: #fafcff;
+            margin-bottom: 12px;
+            border: 1px solid #eff3f8;
             transition: all 0.2s;
         }
-        .dropdown-menu.show { opacity: 1; visibility: visible; transform: translateY(0); }
-        .dropdown-item { padding: 10px 20px; display: flex; align-items: center; gap: 14px; cursor: pointer; }
-        .dropdown-item:hover { background: #f1f5f9; }
-        .divider { height: 1px; background: #eef2f8; margin: 8px 0; }
 
-        /* Dashboard cards */
+        .notif-icon {
+            width: 44px;
+            height: 44px;
+            background: #eef2ff;
+            border-radius: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #2563eb;
+        }
+
+        .notif-content p {
+            font-weight: 500;
+            font-size: 0.85rem;
+        }
+
+        .notif-time {
+            font-size: 0.7rem;
+            color: #6c7a91;
+            margin-top: 4px;
+        }
+
+        .offcanvas-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.3);
+            z-index: 1140;
+            display: none;
+            backdrop-filter: blur(2px);
+        }
+
+        .offcanvas-overlay.active {
+            display: block;
+        }
+
+        /* Dashboard Grid & Cards (unchanged but modern) */
         .dashboard-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
             gap: 24px;
             margin-bottom: 40px;
         }
+
         .stat-card {
             background: white;
             border-radius: 28px;
             padding: 20px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
             border: 1px solid #edf2f7;
-            transition: transform 0.2s;
         }
-        .stat-card:hover { transform: translateY(-3px); }
-        .stat-header { display: flex; align-items: center; gap: 16px; margin-bottom: 12px; }
-        .stat-icon {
-            width: 52px; height: 52px; background: #eef2ff; border-radius: 20px;
-            display: flex; align-items: center; justify-content: center; font-size: 26px; color: #2563eb;
-        }
-        .stat-value { font-size: 1.9rem; font-weight: 800; }
-        .trend-badge { font-size: 0.75rem; color: #10b981; margin-top: 8px; display: inline-block; }
+
         .recent-section {
-            background: white; border-radius: 28px; padding: 20px 24px; border: 1px solid #edf2f7;
-        }
-        .section-title { font-weight: 700; font-size: 1.2rem; margin-bottom: 20px; display: flex; gap: 12px; }
-        .activity-row {
-            display: flex; justify-content: space-between; align-items: center;
-            padding: 14px 0; border-bottom: 1px solid #f0f2f5;
-        }
-        .activity-info { display: flex; align-items: center; gap: 14px; }
-        .activity-badge {
-            width: 38px; height: 38px; background: #f8fafc; border-radius: 14px;
-            display: flex; align-items: center; justify-content: center; color: #3b82f6;
-        }
-
-        /* ========= OFF CANVAS NOTIFICATION PANEL ========= */
-        .offcanvas {
-            position: fixed;
-            top: 0;
-            right: 0;
-            width: 380px;
-            max-width: 90vw;
-            height: 100%;
             background: white;
-            box-shadow: -8px 0 30px rgba(0, 0, 0, 0.15);
-            z-index: 1200;
-            transform: translateX(100%);
-            transition: transform 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.1);
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
-        }
-        .offcanvas.open {
-            transform: translateX(0);
-        }
-        .offcanvas-header {
-            padding: 24px 24px 16px;
-            border-bottom: 1px solid #eef2f8;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        .offcanvas-header h3 {
-            font-size: 1.4rem;
-            font-weight: 700;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        .close-offcanvas {
-            background: #f1f5f9;
-            border: none;
-            width: 36px;
-            height: 36px;
-            border-radius: 40px;
-            cursor: pointer;
-            font-size: 1.2rem;
-            transition: 0.2s;
-        }
-        .close-offcanvas:hover { background: #e2e8f0; }
-        .notifications-list {
-            flex: 1;
-            overflow-y: auto;
-            padding: 16px 20px;
-        }
-        .notification-item {
-            display: flex;
-            gap: 14px;
-            padding: 16px 0;
-            border-bottom: 1px solid #f0f2f5;
-            transition: background 0.2s;
-        }
-        .notification-icon {
-            width: 44px;
-            height: 44px;
-            background: #f1f5f9;
-            border-radius: 30px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.2rem;
-            color: #3b82f6;
-            flex-shrink: 0;
-        }
-        .notification-content {
-            flex: 1;
-        }
-        .notification-title {
-            font-weight: 600;
-            margin-bottom: 4px;
-            color: #0f172a;
-        }
-        .notification-time {
-            font-size: 0.7rem;
-            color: #94a3b8;
-            margin-top: 4px;
-        }
-        .mark-read {
-            font-size: 0.7rem;
-            color: #3b82f6;
-            cursor: pointer;
-            margin-top: 6px;
-            display: inline-block;
-        }
-        .offcanvas-overlay {
-            position: fixed;
-            inset: 0;
-            background: rgba(0,0,0,0.3);
-            z-index: 1190;
-            display: none;
-            backdrop-filter: blur(2px);
-        }
-        .offcanvas-overlay.active {
-            display: block;
+            border-radius: 28px;
+            padding: 20px 24px;
+            border: 1px solid #edf2f7;
         }
 
-        /* Mobile responsive */
+        /* Responsive */
         @media (max-width: 768px) {
             .sidebar {
                 position: fixed;
+                top: 0;
+                left: 0;
+                height: 100%;
                 transform: translateX(-100%);
                 transition: transform 0.25s ease;
+                width: 260px;
                 z-index: 1100;
             }
-            .sidebar.mobile-open { transform: translateX(0); }
-            .main-content { padding: 16px 18px; }
+
+            .sidebar.mobile-open {
+                transform: translateX(0);
+            }
+
+            .main-content {
+                padding: 16px 18px;
+            }
+
             .mobile-menu-btn {
                 display: flex;
                 background: #f1f5f9;
@@ -410,163 +587,205 @@
                 justify-content: center;
                 border-radius: 30px;
                 cursor: pointer;
-                margin-right: 8px;
             }
-            .top-navbar { padding: 10px 16px; }
-            .page-title-area h1 { font-size: 1.3rem; }
+
+            .top-navbar {
+                padding: 8px 16px;
+            }
+
+            .navbar-company-name {
+                display: none;
+            }
+
+            .user-info .user-name {
+                font-size: 0.8rem;
+            }
+
+            .user-role {
+                font-size: 0.65rem;
+            }
         }
-        @media (min-width: 769px) { .mobile-menu-btn { display: none; } }
+
+        @media (min-width: 769px) {
+            .mobile-menu-btn {
+                display: none;
+            }
+        }
+
         .sidebar-overlay {
             position: fixed;
             inset: 0;
-            background: rgba(0,0,0,0.4);
+            background: rgba(0, 0, 0, 0.4);
             z-index: 1040;
             display: none;
+            backdrop-filter: blur(2px);
         }
-        .sidebar-overlay.active { display: block; }
+
+        .sidebar-overlay.active {
+            display: block;
+        }
     </style>
 </head>
+
 <body>
-<div class="app-wrapper">
-    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+    <div class="app-wrapper">
+        <div class="sidebar-overlay" id="sidebarOverlay"></div>
 
-    <!-- SIDEBAR -->
-    <aside class="sidebar" id="sidebar">
-        <div class="sidebar-inner">
-            <div class="brand-area">
-                <div class="brand-icon"><i class="fas fa-cube"></i></div>
-                <span class="brand-text">Nexify</span>
+        <!-- Offcanvas Notification Panel -->
+        <div class="offcanvas-overlay" id="notifOverlay"></div>
+        <div class="offcanvas-notification" id="notificationOffcanvas">
+            <div class="offcanvas-header">
+                <h3><i class="fas fa-bell" style="color:#3b82f6;"></i> Notifications</h3>
+                <button class="close-offcanvas" id="closeNotifCanvas"><i class="fas fa-times"></i></button>
             </div>
-            <div class="nav-menu">
-                <div class="nav-item" data-view="dashboard"><i class="fas fa-tachometer-alt"></i><span class="nav-label">Dashboard</span></div>
-                <div class="nav-item" data-view="analytics"><i class="fas fa-chart-line"></i><span class="nav-label">Analytics</span></div>
-                <div class="nav-item" data-view="projects"><i class="fas fa-layer-group"></i><span class="nav-label">Projects</span></div>
-                <div class="nav-item" data-view="team"><i class="fas fa-users"></i><span class="nav-label">Team</span></div>
-            </div>
-            <div class="toggle-btn-wrapper">
-                <div class="bottom-nav-item" data-view="profile"><i class="fas fa-user-circle"></i><span class="nav-label">Profile</span></div>
-                <div class="bottom-nav-item" data-view="settings"><i class="fas fa-sliders-h"></i><span class="nav-label">Settings</span></div>
-                <div class="bottom-nav-item" data-view="support"><i class="fas fa-headset"></i><span class="nav-label">Support</span></div>
-                <button class="toggle-sidebar" id="collapseBtn"><i class="fas fa-chevron-left" id="collapseIcon"></i><span class="toggle-text">Collapse</span></button>
-            </div>
-        </div>
-    </aside>
-
-    <main class="main-content" id="mainContent">
-        <div class="top-navbar">
-            <div style="display: flex; align-items: center; gap: 12px;">
-                <div class="mobile-menu-btn" id="mobileMenuToggle"><i class="fas fa-bars"></i></div>
-                <div class="page-title-area"><h1 id="dynamicTitle">Executive Dashboard</h1><p id="dynamicSub">Real-time insights & key metrics</p></div>
-            </div>
-            <div class="navbar-right">
-                <div class="notification-bell" id="notificationBell"><i class="fas fa-bell"></i><span class="badge-dot"></span></div>
-                <div class="user-dropdown">
-                    <div class="user-avatar-btn" id="userAvatarBtn"><i class="fas fa-user-astronaut"></i><span class="user-name">Alex Morgan</span><i class="fas fa-chevron-down" style="font-size: 12px;"></i></div>
-                    <div class="dropdown-menu" id="userDropdown"><div class="dropdown-item"><i class="fas fa-user"></i> My Profile</div><div class="dropdown-item"><i class="fas fa-cog"></i> Account Settings</div><div class="dropdown-item"><i class="fas fa-chart-pie"></i> Billing</div><div class="divider"></div><div class="dropdown-item"><i class="fas fa-sign-out-alt"></i> Sign Out</div></div>
-                </div>
-            </div>
-        </div>
-        <div id="viewContainer"></div>
-    </main>
-</div>
-
-<!-- OFF CANVAS NOTIFICATION PANEL -->
-<div class="offcanvas-overlay" id="offcanvasOverlay"></div>
-<div class="offcanvas" id="notificationOffcanvas">
-    <div class="offcanvas-header">
-        <h3><i class="fas fa-bell"></i> Notifications</h3>
-        <button class="close-offcanvas" id="closeOffcanvasBtn"><i class="fas fa-times"></i></button>
-    </div>
-    <div class="notifications-list" id="notificationsList">
-        <!-- Dynamic notifications injected -->
-    </div>
-</div>
-
-<script>
-    (function() {
-        // DOM elements
-        const sidebar = document.getElementById('sidebar');
-        const collapseBtn = document.getElementById('collapseBtn');
-        const collapseIcon = document.getElementById('collapseIcon');
-        const navItems = document.querySelectorAll('[data-view]');
-        const viewContainer = document.getElementById('viewContainer');
-        const mobileMenuToggle = document.getElementById('mobileMenuToggle');
-        const sidebarOverlay = document.getElementById('sidebarOverlay');
-        const dynamicTitle = document.getElementById('dynamicTitle');
-        const dynamicSub = document.getElementById('dynamicSub');
-        const userAvatarBtn = document.getElementById('userAvatarBtn');
-        const userDropdown = document.getElementById('userDropdown');
-        const notificationBell = document.getElementById('notificationBell');
-        
-        // Offcanvas elements
-        const offcanvas = document.getElementById('notificationOffcanvas');
-        const offcanvasOverlay = document.getElementById('offcanvasOverlay');
-        const closeOffcanvasBtn = document.getElementById('closeOffcanvasBtn');
-        const notificationsList = document.getElementById('notificationsList');
-
-        // ---------- NOTIFICATIONS DATA ----------
-        let notifications = [
-            { id: 1, title: "🚀 New deployment completed", message: "Microservices v3.2 deployed successfully to production.", time: "2 minutes ago", icon: "fa-rocket", read: false },
-            { id: 2, title: "📄 Invoice ready", message: "Enterprise Gold Plan invoice for August is available.", time: "1 hour ago", icon: "fa-file-invoice", read: false },
-            { id: 3, title: "🔐 Security alert", message: "New login from Chrome on Windows. Review activity.", time: "3 hours ago", icon: "fa-shield-alt", read: false },
-            { id: 4, title: "📊 Weekly report", message: "Your analytics report for last week is generated.", time: "Yesterday", icon: "fa-chart-line", read: true },
-            { id: 5, title: "👥 Team mention", message: "Emily mentioned you in project 'Cloud Migration'.", time: "Yesterday", icon: "fa-users", read: true }
-        ];
-
-        function renderNotifications() {
-            if (!notificationsList) return;
-            const unreadCount = notifications.filter(n => !n.read).length;
-            const badge = document.querySelector('.badge-dot');
-            if (badge) {
-                if (unreadCount > 0) badge.style.display = 'block';
-                else badge.style.display = 'none';
-            }
-            notificationsList.innerHTML = notifications.map(notif => `
-                <div class="notification-item" data-id="${notif.id}">
-                    <div class="notification-icon"><i class="fas ${notif.icon}"></i></div>
-                    <div class="notification-content">
-                        <div class="notification-title">${notif.title}</div>
-                        <div class="notification-message" style="font-size:0.8rem; color:#475569;">${notif.message}</div>
-                        <div class="notification-time"><i class="far fa-clock"></i> ${notif.time}</div>
-                        ${!notif.read ? `<span class="mark-read" data-id="${notif.id}">Mark as read</span>` : '<span style="font-size:0.7rem; color:#94a3b8;">✓ Read</span>'}
+            <div class="notification-list" id="notifList">
+                <div class="notification-item">
+                    <div class="notif-icon"><i class="fas fa-rocket"></i></div>
+                    <div class="notif-content">
+                        <p><strong>Deployment ready</strong> · v3.2.0 microservices</p>
+                        <div class="notif-time">2 hours ago</div>
                     </div>
                 </div>
-            `).join('');
-            
-            // attach mark read listeners
-            document.querySelectorAll('.mark-read').forEach(el => {
-                el.addEventListener('click', (e) => {
-                    e.stopPropagation();
-                    const id = parseInt(el.getAttribute('data-id'));
-                    const notif = notifications.find(n => n.id === id);
-                    if (notif) notif.read = true;
-                    renderNotifications();
-                });
-            });
-        }
+                <div class="notification-item">
+                    <div class="notif-icon"><i class="fas fa-user-check"></i></div>
+                    <div class="notif-content">
+                        <p><strong>New team member</strong> · Sophia joined Engineering</p>
+                        <div class="notif-time">Yesterday</div>
+                    </div>
+                </div>
+                <div class="notification-item">
+                    <div class="notif-icon"><i class="fas fa-chart-line"></i></div>
+                    <div class="notif-content">
+                        <p><strong>Q3 Report</strong> · Revenue up 23% YoY</p>
+                        <div class="notif-time">Aug 14, 2025</div>
+                    </div>
+                </div>
+                <div class="notification-item">
+                    <div class="notif-icon"><i class="fas fa-shield-alt"></i></div>
+                    <div class="notif-content">
+                        <p><strong>Security audit completed</strong> · SOC2 compliant</p>
+                        <div class="notif-time">3 days ago</div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-        // Open offcanvas notification panel
-        function openOffcanvas() {
-            offcanvas.classList.add('open');
-            offcanvasOverlay.classList.add('active');
-            document.body.style.overflow = 'hidden';
-            renderNotifications(); // refresh on open
-        }
-        function closeOffcanvas() {
-            offcanvas.classList.remove('open');
-            offcanvasOverlay.classList.remove('active');
-            document.body.style.overflow = '';
-        }
-        notificationBell.addEventListener('click', (e) => {
-            e.stopPropagation();
-            openOffcanvas();
-        });
-        closeOffcanvasBtn.addEventListener('click', closeOffcanvas);
-        offcanvasOverlay.addEventListener('click', closeOffcanvas);
+        <!-- SIDEBAR -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-inner">
+                <div class="brand-area">
+                    <div class="brand-logo">N</div>
+                    <span class="brand-text">Nexify</span>
+                </div>
+                <div class="nav-menu">
+                    <div class="nav-item" data-view="dashboard">
+                        <i class="fas fa-tachometer-alt"></i>
+                        <span class="nav-label">Dashboard</span>
+                    </div>
+                    <div class="nav-item" data-view="analytics">
+                        <i class="fas fa-chart-line"></i>
+                        <span class="nav-label">Analytics</span>
+                    </div>
+                    <div class="nav-item" data-view="projects">
+                        <i class="fas fa-layer-group"></i>
+                        <span class="nav-label">Projects</span>
+                    </div>
+                    <div class="nav-item" data-view="team">
+                        <i class="fas fa-users"></i>
+                        <span class="nav-label">Team</span>
+                    </div>
+                </div>
+                <div class="toggle-btn-wrapper">
+                    <div class="bottom-nav-item" data-view="profile">
+                        <i class="fas fa-user-circle"></i>
+                        <span class="nav-label">Profile</span>
+                    </div>
+                    <div class="bottom-nav-item" data-view="settings">
+                        <i class="fas fa-sliders-h"></i>
+                        <span class="nav-label">Settings</span>
+                    </div>
+                    <div class="bottom-nav-item" data-view="support">
+                        <i class="fas fa-headset"></i>
+                        <span class="nav-label">Support</span>
+                    </div>
+                    <button class="toggle-sidebar" id="collapseBtn">
+                        <i class="fas fa-chevron-left" id="collapseIcon"></i>
+                        <span class="toggle-text">Collapse</span>
+                    </button>
+                </div>
+            </div>
+        </aside>
 
-        // ---------- VIEWS ----------
-        const views = {
-            dashboard: `
+        <main class="main-content">
+            <div class="top-navbar">
+                <div class="navbar-left">
+                    <div class="mobile-menu-btn" id="mobileMenuToggle">
+                        <i class="fas fa-bars"></i>
+                    </div>
+                    <!-- Company Logo + Name in navbar -->
+                    <div class="navbar-company-logo">
+                        <div class="navbar-logo-icon">
+                            <i class="fas fa-crown"></i>
+                        </div>
+                        <span class="navbar-company-name">Nexify Enterprise</span>
+                    </div>
+                    <div class="page-title-area">
+                        <h1 id="dynamicTitle">Executive Dashboard</h1>
+                        <p id="dynamicSub">Real-time insights & key metrics</p>
+                    </div>
+                </div>
+                <div class="navbar-right">
+                    <div class="notification-bell" id="notificationBell">
+                        <i class="fas fa-bell"></i>
+                        <span class="badge-dot"></span>
+                    </div>
+                    <div class="user-dropdown">
+                        <div class="user-avatar-btn" id="userAvatarBtn">
+                            <div class="user-avatar-img">AM</div>
+                            <div class="user-info">
+                                <span class="user-name">Alex Morgan</span>
+                                <span class="user-role">Enterprise Admin</span>
+                            </div>
+                            <i class="fas fa-chevron-down" style="font-size: 12px; margin-left: 4px;"></i>
+                        </div>
+                        <div class="dropdown-menu" id="userDropdown">
+                            <div class="dropdown-item"><i class="fas fa-user"></i> My Profile</div>
+                            <div class="dropdown-item"><i class="fas fa-cog"></i> Account Settings</div>
+                            <div class="dropdown-item"><i class="fas fa-chart-pie"></i> Billing</div>
+                            <div class="divider"></div>
+                            <div class="dropdown-item"><i class="fas fa-sign-out-alt"></i> Sign Out</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="viewContainer">
+                <!-- dynamic views -->
+            </div>
+        </main>
+    </div>
+
+    <script>
+        (function () {
+            const sidebar = document.getElementById('sidebar');
+            const collapseBtn = document.getElementById('collapseBtn');
+            const collapseIcon = document.getElementById('collapseIcon');
+            const navItems = document.querySelectorAll('[data-view]');
+            const viewContainer = document.getElementById('viewContainer');
+            const mobileMenuToggle = document.getElementById('mobileMenuToggle');
+            const overlay = document.getElementById('sidebarOverlay');
+            const dynamicTitle = document.getElementById('dynamicTitle');
+            const dynamicSub = document.getElementById('dynamicSub');
+            const userAvatarBtn = document.getElementById('userAvatarBtn');
+            const userDropdown = document.getElementById('userDropdown');
+            const notificationBell = document.getElementById('notificationBell');
+            // Offcanvas elements
+            const notifCanvas = document.getElementById('notificationOffcanvas');
+            const notifOverlay = document.getElementById('notifOverlay');
+            const closeNotifBtn = document.getElementById('closeNotifCanvas');
+
+            // Views content
+            const views = {
+                dashboard: `
                 <div class="dashboard-grid">
                     <div class="stat-card"><div class="stat-header"><div class="stat-icon"><i class="fas fa-dollar-sign"></i></div><div><div class="stat-value">$12.4M</div><div class="stat-label">Total Revenue</div></div></div><div class="trend-badge"><i class="fas fa-arrow-up"></i> 23% vs last quarter</div></div>
                     <div class="stat-card"><div class="stat-header"><div class="stat-icon"><i class="fas fa-user-plus"></i></div><div><div class="stat-value">1,284</div><div class="stat-label">Active Users</div></div></div><div class="trend-badge"><i class="fas fa-chart-line"></i> +12% enterprise</div></div>
@@ -580,76 +799,186 @@
                     <div class="activity-row"><div class="activity-info"><div class="activity-badge"><i class="fas fa-shield-alt"></i></div><span><strong>Security Audit</strong> · SOC2 passed</span></div><span>3 days ago</span></div>
                 </div>
             `,
-            analytics: `<div style="background:white; border-radius:28px; padding:32px;"><i class="fas fa-chart-simple" style="font-size:48px; color:#3b82f6; margin-bottom:16px; display:block;"></i><h2>Analytics Overview</h2><p>Traffic, conversion and revenue reports interactive.</p><div style="margin-top:24px; background:#f1f5f9; border-radius:24px; padding:40px; text-align:center;">📊 Enterprise analytics dashboard</div></div>`,
-            projects: `<div style="background:white; border-radius:28px; padding:32px;"><h2><i class="fas fa-layer-group"></i> Active Projects</h2><div style="margin-top:20px;"><div style="padding:16px; border-bottom:1px solid #edf2f7;">✅ Nexify Cloud - 87% complete</div><div style="padding:16px; border-bottom:1px solid #edf2f7;">✅ AI Integration Suite - 62% complete</div><div style="padding:16px;">🚀 Mobile Expansion - 34% complete</div></div></div>`,
-            team: `<div style="background:white; border-radius:28px; padding:32px;"><h2><i class="fas fa-users"></i> Core Team</h2><div style="display:grid; gap:16px; margin-top:24px;"><div>👩‍💻 Emily Chen - Product Lead</div><div>👨‍💻 Marcus V. - Engineering Director</div><div>👩‍🎨 Sofia R. - UX Architect</div><div>👨‍🔧 David K. - Cloud Ops</div></div></div>`,
-            settings: `<div style="background:white; border-radius:28px; padding:32px;"><h2><i class="fas fa-sliders-h"></i> System Preferences</h2><p>Configure notifications, security, workspace.</p><div style="margin-top:24px;">🌙 Dark mode toggle (coming)<br/>🔔 Email alerts: ON</div></div>`,
-            profile: `<div style="background:white; border-radius:28px; padding:32px;"><h2><i class="fas fa-user-circle"></i> User Profile</h2><p>Alex Morgan · alex.morgan@nexify.com</p><div style="margin-top:20px;"><button style="background:#f1f5f9; border:none; padding:8px 20px; border-radius:40px;">Edit Profile</button></div></div>`,
-            support: `<div style="background:white; border-radius:28px; padding:32px;"><h2><i class="fas fa-headset"></i> Support Center</h2><p>Access documentation, live chat and ticket system.</p><div style="margin-top:20px;">📞 24/7 Enterprise Support · priority@nexify.com</div></div>`
-        };
-
-        // Sidebar collapse logic
-        let isCollapsed = false;
-        function toggleCollapse() {
-            isCollapsed = !isCollapsed;
-            if (isCollapsed) {
-                sidebar.classList.add('collapsed');
-                collapseIcon.classList.remove('fa-chevron-left');
-                collapseIcon.classList.add('fa-chevron-right');
-            } else {
-                sidebar.classList.remove('collapsed');
-                collapseIcon.classList.remove('fa-chevron-right');
-                collapseIcon.classList.add('fa-chevron-left');
-            }
-            if (window.innerWidth <= 768) closeMobileSidebar();
-        }
-        collapseBtn.addEventListener('click', toggleCollapse);
-
-        // Mobile sidebar
-        function openMobileSidebar() { sidebar.classList.add('mobile-open'); sidebarOverlay.classList.add('active'); document.body.style.overflow = 'hidden'; }
-        function closeMobileSidebar() { sidebar.classList.remove('mobile-open'); sidebarOverlay.classList.remove('active'); document.body.style.overflow = ''; }
-        if (mobileMenuToggle) mobileMenuToggle.addEventListener('click', openMobileSidebar);
-        sidebarOverlay.addEventListener('click', closeMobileSidebar);
-        window.addEventListener('resize', () => { if(window.innerWidth > 768) closeMobileSidebar(); });
-
-        // Set active view
-        function setActiveView(viewId) {
-            viewContainer.innerHTML = views[viewId] || views.dashboard;
-            const titles = {
-                dashboard: {title: "Executive Dashboard", sub: "Key metrics & real-time data"},
-                analytics: {title: "Analytics Suite", sub: "Track performance trends"},
-                projects: {title: "Project Portfolio", sub: "Manage enterprise initiatives"},
-                team: {title: "Team Collaboration", sub: "Core members & roles"},
-                settings: {title: "Settings", sub: "Customize workspace"},
-                profile: {title: "My Profile", sub: "Account & preferences"},
-                support: {title: "Support", sub: "Help & resources"}
+                analytics: `<div style="background:white; border-radius:28px; padding:32px;"><i class="fas fa-chart-simple" style="font-size:48px; color:#3b82f6; margin-bottom:16px; display:block;"></i><h2>Analytics Overview</h2><p>Traffic, conversion and revenue reports interactive.</p><div style="margin-top:24px; background:#f1f5f9; border-radius:24px; padding:40px; text-align:center;">📊 Enterprise analytics (real-time dashboards)</div></div>`,
+                projects: `<div style="background:white; border-radius:28px; padding:32px;"><h2><i class="fas fa-layer-group"></i> Active Projects</h2><div style="margin-top:20px;"><div style="padding:16px; border-bottom:1px solid #edf2f7;">✅ Nexify Cloud - 87% complete</div><div style="padding:16px; border-bottom:1px solid #edf2f7;">✅ AI Integration Suite - 62% complete</div><div style="padding:16px;">🚀 Mobile Expansion - 34% complete</div></div></div>`,
+                team: `<div style="background:white; border-radius:28px; padding:32px;"><h2><i class="fas fa-users"></i> Core Team</h2><div style="display:grid; gap:16px; margin-top:24px;"><div>👩‍💻 Emily Chen - Product Lead</div><div>👨‍💻 Marcus V. - Engineering Director</div><div>👩‍🎨 Sofia R. - UX Architect</div><div>👨‍🔧 David K. - Cloud Ops</div></div></div>`,
+                settings: `<div style="background:white; border-radius:28px; padding:32px;"><h2><i class="fas fa-sliders-h"></i> System Preferences</h2><p>Configure notifications, security, workspace.</p><div style="margin-top:24px;"><label>🌙 Dark mode toggle (coming)</label><br/><label>🔔 Email alerts: ON</label></div></div>`,
+                profile: `<div style="background:white; border-radius:28px; padding:32px;"><h2><i class="fas fa-user-circle"></i> User Profile</h2><p>Alex Morgan · alex.morgan@nexify.com</p><div style="margin-top:20px;"><button style="background:#f1f5f9; border:none; padding:8px 20px; border-radius:40px;">Edit Profile</button></div></div>`,
+                support: `<div style="background:white; border-radius:28px; padding:32px;"><h2><i class="fas fa-headset"></i> Support Center</h2><p>Access documentation, live chat and ticket system.</p><div style="margin-top:20px;">📞 24/7 Enterprise Support · priority@nexify.com</div></div>`
             };
-            const data = titles[viewId] || titles.dashboard;
-            // dynamicTitle.innerText = data.title;
-            dynamicSub.innerText = data.sub;
-            document.querySelectorAll('[data-view]').forEach(item => {
-                if(item.getAttribute('data-view') === viewId) item.classList.add('active');
-                else item.classList.remove('active');
+
+            // Sidebar collapse logic
+            let isCollapsed = false;
+            function toggleCollapse() {
+                isCollapsed = !isCollapsed;
+                if (isCollapsed) {
+                    sidebar.classList.add('collapsed');
+                    collapseIcon.classList.remove('fa-chevron-left');
+                    collapseIcon.classList.add('fa-chevron-right');
+                } else {
+                    sidebar.classList.remove('collapsed');
+                    collapseIcon.classList.remove('fa-chevron-right');
+                    collapseIcon.classList.add('fa-chevron-left');
+                }
+                if (window.innerWidth <= 768) closeMobileSidebar();
+            }
+            collapseBtn.addEventListener('click', toggleCollapse);
+
+            // Mobile sidebar handlers
+            function openMobileSidebar() {
+                sidebar.classList.add('mobile-open');
+                overlay.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            }
+            function closeMobileSidebar() {
+                sidebar.classList.remove('mobile-open');
+                overlay.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+            if (mobileMenuToggle) mobileMenuToggle.addEventListener('click', openMobileSidebar);
+            overlay.addEventListener('click', closeMobileSidebar);
+            window.addEventListener('resize', () => {
+                if (window.innerWidth > 768) closeMobileSidebar();
             });
-            if(window.innerWidth <= 768) closeMobileSidebar();
+
+            function setActiveView(viewId) {
+                let content = views[viewId] || views.dashboard;
+                viewContainer.innerHTML = content;
+                const titles = {
+                    dashboard: { title: "Executive Dashboard", sub: "Key metrics & real-time data" },
+                    analytics: { title: "Analytics Suite", sub: "Track performance trends" },
+                    projects: { title: "Project Portfolio", sub: "Manage enterprise initiatives" },
+                    team: { title: "Team Collaboration", sub: "Core members & roles" },
+                    settings: { title: "Settings", sub: "Customize workspace" },
+                    profile: { title: "My Profile", sub: "Account & preferences" },
+                    support: { title: "Support", sub: "Help & resources" }
+                };
+                const data = titles[viewId] || titles.dashboard;
+                dynamicTitle.innerText = data.title;
+                dynamicSub.innerText = data.sub;
+                document.querySelectorAll('[data-view]').forEach(item => {
+                    if (item.getAttribute('data-view') === viewId) item.classList.add('active');
+                    else item.classList.remove('active');
+                });
+                if (window.innerWidth <= 768) closeMobileSidebar();
+            }
+
+            navItems.forEach(el => {
+                el.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    const view = el.getAttribute('data-view');
+                    if (view) setActiveView(view);
+                });
+            });
+
+            setActiveView('dashboard');
+
+            // User dropdown toggle
+            userAvatarBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                userDropdown.classList.toggle('show');
+            });
+            document.addEventListener('click', function (event) {
+                if (!userAvatarBtn.contains(event.target) && !userDropdown.contains(event.target)) {
+                    userDropdown.classList.remove('show');
+                }
+            });
+
+            // NOTIFICATION OFF-CANVAS improvements
+            function openNotificationCanvas() {
+                notifCanvas.classList.add('open');
+                notifOverlay.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            }
+            function closeNotificationCanvas() {
+                notifCanvas.classList.remove('open');
+                notifOverlay.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+            notificationBell.addEventListener('click', openNotificationCanvas);
+            closeNotifBtn.addEventListener('click', closeNotificationCanvas);
+            notifOverlay.addEventListener('click', closeNotificationCanvas);
+
+            // Optional demo: mark bell badge as interactive
+            console.log("Enhanced navbar with logo, profile avatar+role, notification offcanvas ready");
+        })();
+    </script>
+    <!-- Additional missing CSS for activity rows etc -->
+    <style>
+        .stat-header {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 12px;
         }
 
-        navItems.forEach(el => {
-            el.addEventListener('click', (e) => {
-                const view = el.getAttribute('data-view');
-                if(view) setActiveView(view);
-            });
-        });
+        .stat-icon {
+            width: 52px;
+            height: 52px;
+            background: #eef2ff;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 26px;
+            color: #2563eb;
+        }
 
-        setActiveView('dashboard');
+        .stat-value {
+            font-size: 1.9rem;
+            font-weight: 800;
+            color: #0f172a;
+            line-height: 1.2;
+        }
 
-        // User dropdown
-        userAvatarBtn.addEventListener('click', (e) => { e.stopPropagation(); userDropdown.classList.toggle('show'); });
-        document.addEventListener('click', (event) => { if(!userAvatarBtn.contains(event.target) && !userDropdown.contains(event.target)) userDropdown.classList.remove('show'); });
-        
-        // initial render notifications badge
-        renderNotifications();
-    })();
-</script>
+        .stat-label {
+            color: #475569;
+            font-size: 0.85rem;
+            font-weight: 500;
+            margin-top: 6px;
+        }
+
+        .trend-badge {
+            font-size: 0.75rem;
+            color: #10b981;
+            margin-top: 8px;
+            display: inline-block;
+        }
+
+        .section-title {
+            font-weight: 700;
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .activity-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 14px 0;
+            border-bottom: 1px solid #f0f2f5;
+        }
+
+        .activity-info {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .activity-badge {
+            width: 38px;
+            height: 38px;
+            background: #f8fafc;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #3b82f6;
+        }
+    </style>
 </body>
+
 </html>
